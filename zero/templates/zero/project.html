@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOMNATH - Projects</title>
+    <!-- FAVICON -->
+    <link rel="shortcut icon" href="{% static 'images/mainsomu.ico' %}" type="image/x-icon">
+    <!-- UNICONS -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link rel="stylesheet" href="{% static 'css/project.css' %}">
+    
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <nav id="header">
+            <div class="nav-logo">
+                <p class="nav-name">SOMNATH</p>
+                <span>.</span>
+            </div>
+            <div class="nav-menu" id="myNavMenu">
+                <ul class="nav_menu_list">
+                    <li class="nav_list">
+                        <a href="{% url 'base' %}" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav_list">
+                        <a href="{% url 'project' %}" class="nav-link active-link">Projects</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-menu-btn" role="button" aria-label="Toggle navigation menu" aria-expanded="false" tabindex="0">
+                <i class="uil uil-bars"></i>
+            </div>
+        </nav>
+        
+        <main>
+            <div class="header-text">
+                <h1>My Projects</h1>
+                <p>Explore my latest work and creative solutions</p>
+            </div>
+            
+            <!-- Search -->
+            <div class="search-container">
+                <form class="search-form" method="GET" role="search">
+                    <i class="uil uil-search search-icon" aria-hidden="true"></i>
+                    <input 
+                        type="text" 
+                        name="search" 
+                        class="search-input" 
+                        placeholder="Search projects..." 
+                        value="{{ search_query|escape }}"
+                        aria-label="Search projects"
+                        autocomplete="off"
+                    >
+                </form>
+            </div>
+            
+            <!-- Projects -->
+            <div class="projects-grid" role="main">
+                {% for project in projects %}
+                <article class="project-card">
+                    <div class="project-content">
+                        <div class="project-video">
+                            {% if project.youtube_embed_url %}
+                            <div class="video-wrapper">
+                                <iframe 
+                                    src="{{ project.youtube_embed_url }}?enablejsapi=1&origin={{ request.get_host }}" 
+                                    title="{{ project.title }}"
+                                    frameborder="0" 
+                                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    allowfullscreen
+                                    loading="lazy">
+                                </iframe>
+                            </div>
+                            {% elif project.youtube_url %}
+                            <div class="video-thumbnail" onclick="openYouTubeVideo('{{ project.youtube_url }}')" role="button" tabindex="0" aria-label="Watch {{ project.title }} video">
+                                <img 
+                                    src="https://img.youtube.com/vi/{{ project.youtube_id }}/maxresdefault.jpg" 
+                                    alt="{{ project.title }} video thumbnail" 
+                                    onerror="this.src='https://img.youtube.com/vi/{{ project.youtube_id }}/hqdefault.jpg'"
+                                >
+                                <div class="play-button" aria-hidden="true">
+                                    <i class="uil uil-play"></i>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="no-video-placeholder">
+                                <i class="uil uil-video" aria-hidden="true"></i>
+                                <span class="sr-only">No video available</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="project-details">
+                            <h3 class="project-title">{{ project.title }}</h3>
+                            <p class="project-description">{{ project.description }}</p>
+                            
+                            <div class="tech-stack" aria-label="Technologies used">
+                                {% for tech in project.tech_list %}
+                                <span class="tech-tag">{{ tech }}</span>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="project-links" aria-label="Project links">
+                                {% if project.github_url %}
+                                <a href="{{ project.github_url }}" class="btn btn-primary" target="_blank" rel="noopener noreferrer" aria-label="View source code on GitHub">
+                                    <i class="uil uil-github-alt" aria-hidden="true"></i>Code
+                                </a>
+                                {% endif %}
+                                {% if project.preview_url %}
+                                <a href="{{ project.preview_url }}" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" aria-label="Preview project">
+                                    <i class="uil uil-eye" aria-hidden="true"></i> Preview
+                                </a>
+                                {% elif project.youtube_url %}
+                                <a href="{{ project.youtube_url }}" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" aria-label="Watch project video">
+                                    <i class="uil uil-eye" aria-hidden="true"></i> Preview
+                                </a>
+                                {% endif %}
+                                {% if project.linkedin_url %}
+                                <a href="{{ project.linkedin_url }}" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" aria-label="View on LinkedIn">
+                                    <i class="uil uil-linkedin" aria-hidden="true"></i> LinkedIn
+                                </a>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="project-date">
+                                <i class="uil uil-calendar-alt" aria-hidden="true"></i>
+                                {% if project.project_date %}
+                                <time datetime="{{ project.project_date|date:'Y-m-d' }}">{{ project.project_date|date:"F j, Y" }}</time>
+                                {% else %}
+                                <span>Date not specified</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                {% empty %}
+                <div class="no-projects">
+                    <i class="uil uil-folder-open" aria-hidden="true"></i>
+                    <h3>No projects available yet</h3>
+                    <p>Projects will appear here once added through the admin panel.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+
+        <footer>
+            <div class="bottom-footer">
+                <p>Copyright © <a href="#home" style="text-decoration: none;">SOMNATH</a> - All rights reserved</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Screen reader only text -->
+    <div class="sr-only">
+        <span id="live-region" aria-live="polite" aria-atomic="true"></span>
+    </div>
+
+    <script src="{% static 'js/project.js' %}" defer></script>
+</body>
+</html>

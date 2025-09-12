@@ -1,0 +1,606 @@
+{% load static %}
+<!-----admin pass:somu@123321-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOMNATH</title>
+    <!-- UNICONS -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <!-- FAVICON -->
+    <link rel="shortcut icon" href="{% static 'images/mainsomu.ico' %}" type="image/x-icon">
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div id="cursor-emoji"></div>
+    <div class="container">
+        <!-- --------------- HEADER --------------- -->
+        <nav id="header">
+            <div class="nav-logo">
+                <p class="nav-name">SOMNATH</p>
+                <span>.</span>
+            </div>
+            <div class="nav-menu" id="myNavMenu">
+                <ul class="nav_menu_list">
+                    <li class="nav_list">
+                        <a href="#home" class="nav-link active-link">Home</a>
+                    </li>
+                    <li class="nav_list">
+                        <a href="{% url 'project' %}" class="nav-link">Projects</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-menu-btn" onclick="toggleMenu()">
+                <i class="uil uil-bars"></i>
+            </div>
+        </nav>
+        
+        <!-- -------------- MAIN ---------------- -->
+        <main class="wrapper">
+            <!-- -------------- FEATURED BOX ---------------- -->
+            <section class="featured-box" id="home">
+                <div class="featured-text">
+                    <div class="featured-text-card">
+                        <span>Real-World Problem Solver</span>
+                    </div>
+                    <div class="featured-name">
+                        <p>I'm <span class="typedText"></span></p>
+                    </div>
+                    <div class="featured-text-info">
+                        <p>Highly motivated and adaptable Computer Science Engineering student, passionate about leveraging technology to solve real world challenges. A creative thinker and, eager to learn, quick to adapt, and driven by curiosity and innovation. Seeking opportunities in a forward thinking organization that encourages innovation, continuous learning, and impactful contributions.</p>
+                    </div>
+                    <div class="featured-text-btn">
+                        <a href="{% url 'project' %}" class="btn blue-btn">Project<i class="uil uil-message"></i></a>
+                        <a href="#about" class="btn">Resume <i class="uil uil-file-alt"></i></a>
+                    </div>
+                    <div class="social_icons">
+                        <a href="https://www.instagram.com/s.o.m.u3103?igsh=MWJ6eDdpc2FmMGx5MA==" class="icon"><i class="uil uil-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/somnath-p-2630092a1?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="icon"><i class="uil uil-linkedin-alt"></i></a>
+                        <a href="https://youtube.com/@s.o.m.u_007?si=hMuD9c392IgN9LZb" class="icon"><i class="uil uil-youtube"></i></a>
+                        <a href="https://github.com/SOMU3103" class="icon"><i class="uil uil-github-alt"></i></a>
+                    </div>
+                </div>
+                <div class="featured-image">
+                    <div class="image">
+                        <img src="{% static 'images/mainsomu.png' %}" alt="John Doe">
+                    </div>
+                </div>
+                <div class="scroll-icon-box">
+                    <a href="#about" class="scroll-btn">
+                        <i class="uil uil-mouse-alt"></i>
+                        <p>Scroll Down</p>
+                    </a>
+                </div>
+            </section>
+            
+            <!-- -------------- ABOUT BOX ---------------- -->
+            <section class="section" id="about">
+                <div class="top-header">
+                    <h1>About Me</h1>
+                    <span>Get to know me better</span>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="about-img">
+                            <img src="{% static 'images/2.png' %}" alt="John Doe" class="about-pic">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="about-info">
+                            <h3>Who am I?</h3>
+                            <p>Im Passionate about technology and innovation, I explore technology to develop solutions that solve problems in society and help people lead better lives.</p>
+                            <p>My journey in tech began with curiosity about how systems work, which has grown into a strong interest in full stack development, data science, and AI/ML. I'm constantly learning, adapting, and applying my skills to bring innovative ideas to life.</p>
+
+                            <div class="about-btn">
+                                <a href="{% static 'resume/SOMNATH.docx' %}" download="SOMNATH.docx" class="btn btn-download" id="downloadCvBtn">
+                                    <span class="btn-text">Download CV</span> <i class="uil uil-file-alt download-icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+
+            <!-- -------------- SKILLS SECTION ---------------- -->
+            <section class="skills section" id="skills">
+                <div class="skills-content">
+                    <p class="section-subtitle">My Skills</p>
+                    <h2 class="section-title">What My Programming Skills Include?</h2>
+                    <p class="section-text">I enjoy turning imagination into innovation, building solutions that not only solve problems but also create a lasting impact through technology.</p>
+                    <div class="skills-toggle" data-toggle-box>
+                        <button class="toggle-btn active" data-toggle-btn>Skills</button>
+                        <button class="toggle-btn" data-toggle-btn>Tools</button>
+                    </div>
+                </div>
+
+                <div class="skills-box" data-skills-box>
+                    <ul class="skills-list">
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">full stack Web-developer</div>
+                                <div class="card-icon">
+                                    <img src="https://iili.io/KxpedYl.png" alt="full stack Web-developer logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">data analytics</div>
+                                <div class="card-icon">
+                                    <img src="https://iili.io/Kxyo9aI.png" alt="HTML5 logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">Machine Learning</div>
+                                <div class="card-icon">
+                                    <img src="https://iili.io/KxyXZdB.png" alt="HTML5 logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">Windows Application Development</div>
+                                <div class="card-icon">
+                                    <img src="https://iili.io/Kxy4LRs.png" alt="HTML5 logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">Application Designer</div>
+                                <div class="card-icon">
+                                    <img src="https://iili.io/KxymAFf.png" alt="HTML5 logo">
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <ul class="tools-list">
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">HTML5</div>
+                                <div class="card-icon">
+                                    <img src="https://i.postimg.cc/90cYBMc2/html5.png" alt="VS Code logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">CSS3</div>
+                                <div class="card-icon">
+                                    <img src="https://i.postimg.cc/cCDwMBD7/css3.png" alt="Git logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">javascript</div>
+                                <div class="card-icon">
+                                    <img src="https://iili.io/Kz9FXSe.png" alt="Git logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">Bootstrap</div>
+                                <div class="card-icon">
+                                    <img src="https://i.postimg.cc/Fzf3pJw2/bootstrap.png" alt="Git logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">Figma</div>
+                                <div class="card-icon">
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">Python</div>
+                                <div class="card-icon">
+                                    <img src="https://i.postimg.cc/TwKhPLLW/python.png" alt="Webpack logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">Java</div>
+                                <div class="card-icon">
+                                    <img src="https://i.postimg.cc/yxnGrdjv/java.png" alt="NPM logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">Django</div>
+                                <div class="card-icon">
+                                    <img src="https://i.postimg.cc/nVwMN1WY/django.pngg" alt="Photoshop logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">Numpy</div>
+                                <div class="card-icon">
+                                    <img src="https://i.postimg.cc/131FYHg7/numpy.png" alt="Adobe XD logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">Pandas</div>
+                                <div class="card-icon">
+                                    <img src="https://i.postimg.cc/50gpfrzt/pandas.png" alt="Trello logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">Matplotlib</div>
+                                <div class="card-icon">
+                                    <img src="https://i.postimg.cc/j2GfT6M5/matplotlib.png" alt="Postman logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">Seaborn</div>
+                                <div class="card-icon">
+                                    <img src="https://iili.io/Kz9rKHg.png" alt="Postman logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">scikit-learn</div>
+                                <div class="card-icon">
+                                    <img src="https://iili.io/Kz9eQSf.png" alt="Postman logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">PyTorch</div>
+                                <div class="card-icon">
+                                    <img src="https://iili.io/Kzdu32s.png" alt="Postman logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">TensorFlow</div>
+                                <div class="card-icon">
+                                    <img src="https://iili.io/Kzd7nHu.png" alt="Postman logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">MySql</div>
+                                <div class="card-icon">
+                                    <img src="https://iili.io/Kz9R8cG.png" alt="Postman logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">Postgresql</div>
+                                <div class="card-icon">
+                                    <img src="https://iili.io/Kz90bB2.png" alt="Postman logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">MongoDB</div>
+                                <div class="card-icon">
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="Command Line logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">Github-Git</div>
+                                <div class="card-icon">
+                                    <img src="https://iili.io/KzMPoBa.png" alt="Command Line logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">Docker</div>
+                                <div class="card-icon">
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker logo">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="skills-card">
+                                <div class="tooltip">Firebase</div>
+                                <div class="card-icon">
+                                    <img src="https://i.postimg.cc/vTHbwrGN/firebase.png" alt="Slack logo">
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- -------------- TIMELINE SECTION ---------------- -->
+            <section class="section" id="timeline">
+                <div class="top-header">
+                    <h1>Experience Timeline</h1>
+                    <span>My professional journey</span>
+                </div>
+                <div class="timeline-container">
+                    <!-- Timeline Item 1 -->
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-image">
+                                <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="TechCorp Office">
+                            </div>
+                            <h3 class="timeline-title">Senior Developer at TechCorp</h3>
+                            <p class="timeline-description">Led a team of 5 developers in building a revolutionary SaaS platform. Implemented cutting-edge technologies and improved system performance by 40%.</p>
+                            <div class="timeline-tags">
+                                <span class="timeline-tag">Leadership</span>
+                                <span class="timeline-tag">React</span>
+                                <span class="timeline-tag">Node.js</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 2 -->
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-image">
+                                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="E-Commerce Platform">
+                            </div>
+                            <h3 class="timeline-title">Launched E-Commerce Platform</h3>
+                            <p class="timeline-description">Designed and developed a full-stack e-commerce solution that processed over $2M in its first year. Integrated secure payment processing and inventory management.</p>
+                            <div class="timeline-tags">
+                                <span class="timeline-tag">Vue.js</span>
+                                <span class="timeline-tag">MongoDB</span>
+                                <span class="timeline-tag">Stripe API</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 3 -->
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-image">
+                                <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Web Development">
+                            </div>
+                            <h3 class="timeline-title">Frontend Developer at WebSolutions</h3>
+                            <p class="timeline-description">Created responsive and accessible web applications for clients in healthcare and finance industries. Improved page load times by 60% through optimization.</p>
+                            <div class="timeline-tags">
+                                <span class="timeline-tag">React</span>
+                                <span class="timeline-tag">Accessibility</span>
+                                <span class="timeline-tag">Performance</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 4 -->
+                    <div class="timeline-item">
+                       <div class="timeline-content">
+                            <div class="timeline-image">
+                                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Freelance Work">
+                            </div>
+                            <h3 class="timeline-title">Freelance Web Developer</h3>
+                            <p class="timeline-description">Worked with various clients to create custom web solutions. Developed 15+ websites with modern designs and functionality tailored to client needs.</p>
+                            <div class="timeline-tags">
+                                <span class="timeline-tag">WordPress</span>
+                                <span class="timeline-tag">JavaScript</span>
+                                <span class="timeline-tag">UI/UX</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 5 -->
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-image">
+                                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Coding Bootcamp">
+                            </div>
+                            <h3 class="timeline-title">Completed Full Stack Bootcamp</h3>
+                            <p class="timeline-description">Mastered MERN stack development through intensive training. Built 10+ projects including a social media app and a task management system.</p>
+                            <div class="timeline-tags">
+                                <span class="timeline-tag">MongoDB</span>
+                                <span class="timeline-tag">Express</span>
+                                <span class="timeline-tag">React</span>
+                                <span class="timeline-tag">Node.js</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- -------------- CERTIFICATIONS SECTION ---------------- -->
+            <section class="section" id="certifications">
+                <div class="top-header">
+                    <h1>Certifications</h1>
+                    <span>My professional achievements</span>
+                </div>
+                
+                {% if certifications %}
+                <div class="certifications-slider">
+                    <div class="certifications-track" id="certificationsTrack">
+                        {% for cert in certifications %}
+                        <div class="certification-slide">
+                            <div class="certification-card">
+                                {% if cert.image_url %}
+                                <div class="certification-image">
+                                    <img src="{{ cert.image_url }}" alt="{{ cert.title }}" onerror="this.parentElement.classList.add('no-image'); this.style.display='none';">
+                                    <div class="image-overlay">
+                                        <i class="uil uil-award"></i>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="certification-image no-image">
+                                    <div class="placeholder-icon">
+                                        <i class="uil uil-award"></i>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                
+                                <div class="certification-content">
+                                    <div class="certification-header">
+                                        <h3 class="certification-title">{{ cert.title }}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Slider Controls -->
+                    <div class="slider-controls">
+                        <button class="slider-btn prev-btn" id="prevBtn">
+                            <i class="uil uil-angle-left"></i>
+                        </button>
+                        
+                        <div class="slider-dots" id="sliderDots">
+                            <!-- Dots will be generated by JavaScript -->
+                        </div>
+                        
+                        <button class="slider-btn next-btn" id="nextBtn">
+                            <i class="uil uil-angle-right"></i>
+                        </button>
+                    </div>
+                </div>
+                {% else %}
+                <div class="no-certifications">
+                    <div class="empty-state">
+                        <i class="uil uil-award"></i>
+                        <h3>No Certifications Yet</h3>
+                        <p>Certifications will appear here once they are added.</p>
+                    </div>
+                </div>
+                {% endif %}
+            </section>
+
+            <!-- -------------- CARDS SECTION ---------------- -->
+            <section class="section" id="cards">
+                <div class="top-header">
+                    <h1>Featured Work</h1>
+                    <span>Some of my recent projects</span>
+                </div>
+                <div class="main">
+                    <ul class="cards">
+                        <li class="cards_item">
+                            <div class="card">
+                                <div class="card_image">
+                                    <img src="https://assets.codepen.io/652/photo-1468777675496-5782faaea55b.jpeg" alt="mixed vegetable salad in a mason jar." />
+                                </div>
+                                <div class="card_content">
+                                    <h2 class="card_title">Farmstand Salad</h2>
+                                    <div class="card_text">
+                                        <p>Dig into the freshest veggies of the season! This salad-in-a-jar features a mixture of leafy greens and seasonal vegetables, fresh from the farmer's market.</p>
+                                        <hr />
+                                        <p>Served with your choice of dressing on the side: <strong>housemade ranch</strong>, <strong>cherry balsamic vinaigrette</strong>, <strong>creamy chipotle</strong>, <strong>avocado green goddess</strong>, or <strong>honey mustard</strong>. Add your choice of protein for $2 more.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="cards_item">
+                            <div class="card">
+                                <div class="card_image">
+                                    <img src="https://assets.codepen.io/652/photo-1520174691701-bc555a3404ca.jpeg" alt="a Reuben sandwich on wax paper." />
+                                </div>
+                                <div class="card_content">
+                                    <h2 class="card_title">Ultimate Reuben</h2>
+                                    <div class="card_text">
+                                        <p>All great meals take time, but this one takes it to the next level! More than 650 hours of fermenting, brining, aging, and curing goes into each and every one of our legendary Reuben sandwiches.</p>
+                                        <p>Every element of this extraordinary sandwich is handcrafted in our kitchens, from the rye bread baked from our secret recipe to the cave-aged Swiss cheese, right down to the pickle. The only thing we didn't make on the premises is the toothpick (but we're looking into how to do that).</p>
+                                        <hr />
+                                        <p>This unforgettable sandwich has all of the classic Reuben elements: <strong>corned beef</strong>, <strong>rye bread</strong>, <strong>creamy Russian dressing</strong>, <strong>sauerkraut</strong>, plus a <strong>sweet gherkin pickle</strong>. No substitions please!</p>
+                                        <p>Add a side of <strong>french fries</strong> or <strong>sweet potato fries</strong> for $2 more, or our <strong>housemade pub chips</strong> for $1.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                         <li class="cards_item">
+                            <div class="card">
+                                <div class="card_image">
+                                    <img src="https://assets.codepen.io/652/photo-1520174691701-bc555a3404ca.jpeg" alt="a Reuben sandwich on wax paper." />
+                                </div>
+                                <div class="card_content">
+                                    <h2 class="card_title">Ultimate Reuben</h2>
+                                    <div class="card_text">
+                                        <p>All great meals take time, but this one takes it to the next level! More than 650 hours of fermenting, brining, aging, and curing goes into each and every one of our legendary Reuben sandwiches.</p>
+                                        <p>Every element of this extraordinary sandwich is handcrafted in our kitchens, from the rye bread baked from our secret recipe to the cave-aged Swiss cheese, right down to the pickle. The only thing we didn't make on the premises is the toothpick (but we're looking into how to do that).</p>
+                                        <hr />
+                                        <p>This unforgettable sandwich has all of the classic Reuben elements: <strong>corned beef</strong>, <strong>rye bread</strong>, <strong>creamy Russian dressing</strong>, <strong>sauerkraut</strong>, plus a <strong>sweet gherkin pickle</strong>. No substitions please!</p>
+                                        <p>Add a side of <strong>french fries</strong> or <strong>sweet potato fries</strong> for $2 more, or our <strong>housemade pub chips</strong> for $1.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- -------------- CONTACT BOX ---------------- -->
+            <section class="section" id="contact">
+                <div class="top-header">
+                    <h1>Get In Touch</h1>
+                    <span>Have a project in mind? Let's collaborate and create something amazing together</span>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="contact-info">
+                            <h2>Find Me <i class="uil uil-corner-right-down"></i></h2>
+                            <p><i class="uil uil-envelope"></i> john.doe@example.com</p>
+                            <p><i class="uil uil-phone"></i> +91 98765 43210</p>
+                            <p><i class="uil uil-map-marker"></i> New York, USA</p>
+                            <p><i class="uil uil-clock"></i> Available 24/7</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <form id="contact-form" class="form-control" action="https://formsubmit.co/somnathpoff@email.com" method="POST">
+                            <div class="form-inputs">
+                                <input type="text" name="name" class="input-field" id="name" placeholder="Your Name" required>
+                                <input type="email" name="email" class="input-field" id="email" placeholder="Your Email" required>
+                            </div>
+                            <div class="form-inputs">
+                                <input type="text" name="subject" class="input-field" id="subject" placeholder="Subject" required>
+                                <input type="tel" name="phone" class="input-field" id="phone" placeholder="Phone Number">
+                            </div>
+                            <div class="text-area">
+                                <textarea name="message" placeholder="Your Message" id="message" required></textarea>
+                            </div>
+                            <div class="form-button">
+                                <button type="submit" class="btn" id="submit-btn">Send Message <i class="uil uil-message"></i></button>
+                            </div>
+                            <div id="result" class="form-result"></div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- --------------- FOOTER --------------- -->
+        <footer>
+            <div class="bottom-footer">
+                <p>Copyright © <a href="#home" style="text-decoration: none;">SOMNATH</a> - All rights reserved</p>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+    <!-- ----- SCROLL REVEAL JS Link----- -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

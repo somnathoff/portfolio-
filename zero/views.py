@@ -4,8 +4,24 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from .models import Project , Certification
 
+# Add to the top of views.py temporarily
+from django.conf import settings
+import logging
+
+logger = logging.getLogger(__name__)
+
 def base(request):
-    certifications = Certification.objects.all()
+    # Debug database configuration
+    logger.info(f"DATABASE_URL exists: {'DATABASE_URL' in os.environ}")
+    logger.info(f"Database config: {settings.DATABASES}")
+    
+    try:
+        certifications = Certification.objects.all()
+        logger.info(f"Successfully retrieved {certifications.count()} certifications")
+    except Exception as e:
+        logger.error(f"Database error: {e}")
+        raise
+        
     return render(request, 'zero/base.html', {
         'certifications': certifications
     })

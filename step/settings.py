@@ -89,29 +89,27 @@ WSGI_APPLICATION = 'step.wsgi.application'
 
 # Database
 
-DATABASE_URL = config('DATABASE_URL', default=None)
+# Database
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
 if DATABASE_URL:
     DATABASES = {
-        'default': dj_database_url.config(
-            default=DATABASE_URL,
-            conn_max_age=600,
-            conn_health_checks=True,
-            ssl_require=True,  # Add SSL requirement
-        )
+        'default': dj_database_url.parse(DATABASE_URL)
     }
+    print(f"Using DATABASE_URL: {DATABASE_URL[:50]}...")  # Only show first 50 chars for security
 else:
-    # Local development fallback
+    # Fallback for local development
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': config('DB_NAME', default='port'),
-            'USER': config('DB_USER', default='postgres'),
-            'PASSWORD': config('DB_PASSWORD', default='2006331'),
-            'HOST': config('DB_HOST', default='127.0.0.1'),
-            'PORT': config('DB_PORT', default='5432'),
+            'NAME': os.environ.get('DB_NAME', 'port'),
+            'USER': os.environ.get('DB_USER', 'postgres'),
+            'PASSWORD': os.environ.get('DB_PASSWORD', '2006331'),
+            'HOST': os.environ.get('DB_HOST', '127.0.0.1'),
+            'PORT': os.environ.get('DB_PORT', '5432'),
         }
     }
+    print("Using fallback database configuration")
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {

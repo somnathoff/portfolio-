@@ -134,8 +134,12 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-# WhiteNoise configuration
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+if DEBUG:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+else:
+    # Use this if CompressedManifestStaticFilesStorage causes issues
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+    pass
 WHITENOISE_MAX_AGE = 31536000 if not DEBUG else 0  # 1 year for production
 WHITENOISE_USE_FINDERS = True
 WHITENOISE_MANIFEST_STRICT = False

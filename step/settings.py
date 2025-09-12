@@ -93,16 +93,30 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'step.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'portfolio_db_vn5m',  # Database name from your URL
-        'USER': 'portfolio_db_vn5m_user',  # Username from your URL
-        'PASSWORD': 'FSdLW71gu1CiGeCuVl5lui0bOk6SikoS',  # Password from your URL
-        'HOST': 'dpg-d322prndiees738e964g-a.oregon-postgres.render.com',  # Host from your URL
-        'PORT': '5432',
+# Database - Using dj-database-url for Render compatibility
+DATABASE_URL = config('DATABASE_URL', default=None)
+
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            conn_health_checks=True,
+            ssl_require=True,  # Add SSL requirement
+        )
     }
-}
+else:
+    # Local development fallback
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': config('DB_NAME', default='port'),
+            'USER': config('DB_USER', default='postgres'),
+            'PASSWORD': config('DB_PASSWORD', default='2006331'),
+            'HOST': config('DB_HOST', default='127.0.0.1'),
+            'PORT': config('DB_PORT', default='5432'),
+        }
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [

@@ -7,7 +7,7 @@ from .models import Project , Certification
 # Add to the top of views.py temporarily
 from django.conf import settings
 import logging
-
+import os
 logger = logging.getLogger(__name__)
 
 def base(request):

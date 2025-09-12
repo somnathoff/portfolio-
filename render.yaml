@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: step-django-app
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: gunicorn step.wsgi:application  # This line is critical
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.4
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: false
+databases:
+  - name: step-db
+    databaseName: step_database
+    user: step_user
+    plan: free
+    ipAllowList: []  # Allow all IPs (simplified for development)

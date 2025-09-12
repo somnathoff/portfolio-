@@ -87,8 +87,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'step.wsgi.application'
 
 # Database
-# Use dj-database-url to parse DATABASE_URL environment variable
-# Fallback to individual environment variables for local development
+
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
 if DATABASE_URL:

@@ -31,7 +31,7 @@ PRODUCTION_HOSTS = [
     'portfolio-h9z2.onrender.com',
     os.environ.get('RENDER_EXTERNAL_HOSTNAME', '')  # Render's internal host
 ]
-ALLOWED_HOSTS = PRODUCTION_HOSTS if not DEBUG else ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = PRODUCTION_HOSTS if not DEBUG else ['localhost', '127.0.0.1','portfolio-h9z2.onrender.com']
 ALLOWED_HOSTS = [h for h in ALLOWED_HOSTS if h] 
 
 # Add wildcard for Render preview deployments

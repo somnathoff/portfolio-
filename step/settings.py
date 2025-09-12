@@ -92,14 +92,16 @@ WSGI_APPLICATION = 'step.wsgi.application'
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
 if DATABASE_URL:
-    # Production: Use DATABASE_URL (Render will provide this)
+    # Production: Use DATABASE_URL from Render
     DATABASES = {
-        'default': dj_database_url.config(
-            default=DATABASE_URL,
+        'default': dj_database_url.parse(
+            DATABASE_URL,
             conn_max_age=600,
             conn_health_checks=True,
+            ssl_require=True
         )
     }
+    print(f"Using DATABASE_URL: {DATABASE_URL}")
 else:
     # Development: Use individual environment variables
     DATABASES = {

@@ -1,14 +1,14 @@
-#!/bin/bash
-# build.sh
+#!/usr/bin/env bash
+# exit on error
+set -o errexit
 
-# Install dependencies
+# Install Python dependencies
 pip install -r requirements.txt
 
-# Collect static files
-python manage.py collectstatic --noinput
+# Convert static asset files
+python manage.py collectstatic --no-input
 
-# Run migrations
+# Apply any outstanding database migrations
 python manage.py migrate
 
-# Start Gunicorn with correct WSGI path
-gunicorn step.wsgi:application --bind 0.0.0.0:$PORT
+echo "Build completed successfully!"

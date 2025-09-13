@@ -194,26 +194,18 @@ nav {
 .nav-menu-btn {
   display: none;
   z-index: 1001;
-  cursor: pointer;
-  padding: 8px;
-  /* Remove any transform animations that cause shaking */
-  transform: none !important;
-  transition: none !important;
 }
 
 .nav-menu-btn i {
   font-size: 26px;
   color: var(--text-color);
-  transition: color 0.3s ease; /* Only animate color, not transform */
+  transition: all 0.3s ease;
   cursor: pointer;
-  /* Prevent any transform animations */
-  transform: none !important;
 }
 
 .nav-menu-btn i:hover {
   color: var(--first-color);
-  /* Remove scale animation that causes shaking */
-  transform: none !important;
+  transform: scale(1.1);
 }
 
 .active-link {
@@ -1832,11 +1824,7 @@ footer::before {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    padding: 10px; /* Increased padding for better touch target */
-    border-radius: 8px;
-    /* Ensure button stays in place */
-    position: relative;
-    transition: background-color 0.2s ease;
+    padding: 8px;
   }
   
   .nav-menu {
@@ -1860,14 +1848,7 @@ footer::before {
   .nav-menu.active {
     left: 0;
   }
-  .nav-menu-btn i {
-    font-size: 24px; /* Slightly smaller for mobile */
-    line-height: 1;
-    display: block;
-    width: 24px;
-    height: 24px;
-    text-align: center;
-  }
+  
   .nav_menu_list {
     flex-direction: column;
     gap: 30px;

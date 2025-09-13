@@ -11,8 +11,8 @@ class PortfolioManager {
         
         try {
             await this.waitForDOM();
-            this.setupTypingAnimation();
             this.setupNavigation();
+            this.setupTypingAnimation();
             this.setupSkillsToggle();
             this.setupTooltips();
             this.setupDownloadButton();
@@ -35,67 +35,7 @@ class PortfolioManager {
         });
     }
 
-    // ===== TYPING ANIMATION =====
-    setupTypingAnimation() {
-        const typedElement = document.querySelector('.typedText');
-        if (!typedElement) return;
-
-        // Check if Typed.js is available
-        if (typeof Typed !== 'undefined') {
-            new Typed('.typedText', {
-                strings: ['SOMNATH', 'Problem Solver', 'Full Stack Developer', 'Machine Learning Engineer', 'Data Scientist'],
-                loop: true,
-                typeSpeed: 100,
-                backSpeed: 80,
-                backDelay: 2000,
-                showCursor: true,
-                cursorChar: '|',
-                autoInsertCss: true,
-            });
-        } else {
-            // Fallback typing animation
-            this.setupFallbackTyping(typedElement);
-        }
-    }
-
-    setupFallbackTyping(element) {
-        const texts = ['SOMNATH', 'Problem Solver', 'Full Stack Developer', 'Machine Learning Engineer', 'Data Scientist'];
-        let textIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        
-        const typeSpeed = 100;
-        const deleteSpeed = 50;
-        const pauseTime = 2000;
-
-        function type() {
-            const currentText = texts[textIndex];
-            
-            if (isDeleting) {
-                element.textContent = currentText.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                element.textContent = currentText.substring(0, charIndex + 1);
-                charIndex++;
-            }
-
-            let typeSpeedCurrent = isDeleting ? deleteSpeed : typeSpeed;
-
-            if (!isDeleting && charIndex === currentText.length) {
-                typeSpeedCurrent = pauseTime;
-                isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                textIndex = (textIndex + 1) % texts.length;
-            }
-
-            setTimeout(type, typeSpeedCurrent);
-        }
-        
-        type();
-    }
-
-    // ===== NAVIGATION =====
+    // ===== NAVIGATION - SETUP FIRST =====
     setupNavigation() {
         this.setupMobileMenu();
         this.setupSmoothScrolling();
@@ -109,7 +49,7 @@ class PortfolioManager {
 
         if (!navMenu || !menuBtn) return;
 
-        // Add click event to menu button - FIXED: Remove animation causing shaking
+        // Add click event to menu button
         menuBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             this.toggleMenu();
@@ -228,6 +168,87 @@ class PortfolioManager {
         });
     }
 
+    // ===== TYPING ANIMATION - ISOLATED =====
+    setupTypingAnimation() {
+        const typedElement = document.querySelector('.typedText');
+        if (!typedElement) return;
+
+        // Ensure the container has proper styling to prevent layout shifts
+        const container = typedElement.parentElement;
+        if (container) {
+            container.style.minHeight = '1.2em'; // Prevent height changes
+        }
+
+        // Check if Typed.js is available
+        if (typeof Typed !== 'undefined') {
+            new Typed('.typedText', {
+                strings: ['SOMNATH', 'Problem Solver', 'Full Stack Developer', 'Machine Learning Engineer', 'Data Scientist'],
+                loop: true,
+                typeSpeed: 100,
+                backSpeed: 80,
+                backDelay: 2000,
+                showCursor: true,
+                cursorChar: '|',
+                autoInsertCss: true,
+                // Prevent any DOM manipulation that could affect other elements
+                onBegin: (self) => {
+                    // Ensure the element stays within bounds
+                    self.el.style.display = 'inline-block';
+                    self.el.style.minWidth = '200px';
+                },
+                onComplete: (self) => {
+                    // Keep consistent styling
+                    self.el.style.display = 'inline-block';
+                }
+            });
+        } else {
+            // Fallback typing animation with proper isolation
+            this.setupFallbackTyping(typedElement);
+        }
+    }
+
+    setupFallbackTyping(element) {
+        const texts = ['SOMNATH', 'Problem Solver', 'Full Stack Developer', 'Machine Learning Engineer', 'Data Scientist'];
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        
+        const typeSpeed = 100;
+        const deleteSpeed = 50;
+        const pauseTime = 2000;
+
+        // Set initial styles to prevent layout shifts
+        element.style.display = 'inline-block';
+        element.style.minWidth = '200px';
+        element.style.minHeight = '1.2em';
+
+        function type() {
+            const currentText = texts[textIndex];
+            
+            if (isDeleting) {
+                element.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                element.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeedCurrent = isDeleting ? deleteSpeed : typeSpeed;
+
+            if (!isDeleting && charIndex === currentText.length) {
+                typeSpeedCurrent = pauseTime;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+            }
+
+            setTimeout(type, typeSpeedCurrent);
+        }
+        
+        type();
+    }
+
     // ===== SKILLS TOGGLE FUNCTIONALITY =====
     setupSkillsToggle() {
         const toggleBtns = document.querySelectorAll('[data-toggle-btn]');
@@ -236,7 +257,6 @@ class PortfolioManager {
         const toggleBox = document.querySelector('[data-toggle-box]');
 
         if (!toggleBox || toggleBtns.length === 0 || !skillsList || !toolsList) {
-            console.warn('Skills toggle elements not found');
             return;
         }
 

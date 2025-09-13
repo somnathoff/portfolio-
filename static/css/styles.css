@@ -191,6 +191,23 @@ nav {
   width: 60%;
 }
 
+.nav-menu-btn {
+  display: none;
+  z-index: 1001;
+}
+
+.nav-menu-btn i {
+  font-size: 26px;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.nav-menu-btn i:hover {
+  color: var(--first-color);
+  transform: scale(1.1);
+}
+
 .active-link {
   color: var(--first-color);
   background: rgba(0, 212, 255, 0.1);
@@ -654,6 +671,7 @@ h3 {
   margin-top: 25px;
 }
 
+/* ===== SKILLS SECTION ===== */
 /* ===== SKILLS SECTION ===== */
 .skills {
   padding: 80px 0;
@@ -1801,6 +1819,59 @@ footer::before {
 
 /* Mobile Navigation & Base Layout */
 @media only screen and (max-width: 900px) {
+  .nav-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 8px;
+  }
+  
+  .nav-menu {
+    position: fixed;
+    top: 80px;
+    left: -100%;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    width: 100%;
+    height: calc(100vh - 80px);
+    transition: left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 999;
+    padding-top: 60px;
+    overflow-y: auto;
+  }
+  
+  .nav-menu.active {
+    left: 0;
+  }
+  
+  .nav_menu_list {
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .nav_list {
+    width: 100%;
+  }
+  
+  .nav-link {
+    font-size: 20px;
+    padding: 15px 40px;
+    display: block;
+    margin: 0 auto;
+    width: fit-content;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+  }
+  
   .featured-box {
     flex-direction: column;
     justify-content: center;
@@ -2081,6 +2152,12 @@ footer::before {
   
   .nav-name {
     font-size: 22px;
+  }
+  
+  .nav-menu {
+    top: 70px;
+    height: calc(100vh - 70px);
+    padding-top: 40px;
   }
 
   .featured-box {
@@ -2570,6 +2647,11 @@ footer::before {
   .featured-box {
     min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   }
+  
+  .nav-menu {
+    height: calc(100vh - 80px - env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }
 
 /* Grid layout for larger screens */
@@ -2646,111 +2728,5 @@ footer::before {
 
   .certification-card:hover {
     transform: none;
-  }
-}
-
-
-
-
-/* Mobile menu button */
-.nav-menu-btn {
-  display: none;
-  z-index: 1001;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 8px;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.nav-menu-btn:focus {
-  outline: 2px solid var(--first-color, #00d4ff);
-  outline-offset: 2px;
-}
-
-.nav-menu-btn i {
-  font-size: 26px;
-  color: var(--text-color, #f8f9fa);
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  display: block;
-}
-
-/* Mobile Navigation Styles */
-@media only screen and (max-width: 900px) {
-  .nav-menu-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .nav-menu {
-    position: fixed;
-    top: 80px;
-    left: -100%;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    background: rgba(10, 10, 10, 0.98);
-    width: 100%;
-    height: calc(100vh - 80px);
-    transition: left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    z-index: 999;
-    padding-top: 60px;
-    overflow-y: auto;
-  }
-  
-  /* Backdrop filter with fallback */
-  @supports (backdrop-filter: blur(25px)) {
-    .nav-menu {
-      background: rgba(10, 10, 10, 0.98);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-    }
-  }
-  
-  .nav-menu.active {
-    left: 0;
-  }
-  
-  .nav_menu_list {
-    flex-direction: column;
-    gap: 30px;
-    width: 100%;
-    text-align: center;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .nav_list {
-    width: 100%;
-  }
-  
-  .nav-link {
-    font-size: 20px;
-    padding: 15px 40px;
-    display: block;
-    margin: 0 auto;
-    width: fit-content;
-    border-radius: 30px;
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .nav-menu {
-    top: 70px;
-    height: calc(100vh - 70px);
-    padding-top: 40px;
-  }
-}
-
-/* Very small screens */
-@media only screen and (max-width: 320px) {
-  .nav-menu {
-    padding-top: 30px;
-  }
-  
-  .nav-link {
-    font-size: 18px;
-    padding: 12px 30px;
   }
 }

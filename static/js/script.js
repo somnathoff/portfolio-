@@ -97,8 +97,81 @@ class PortfolioManager {
 
     // ===== NAVIGATION =====
     setupNavigation() {
+        this.setupMobileMenu();
         this.setupSmoothScrolling();
         this.setupScrollSpy();
+    }
+
+    setupMobileMenu() {
+        const navMenu = document.getElementById('myNavMenu');
+        const menuBtn = document.querySelector('.nav-menu-btn i');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        if (!navMenu || !menuBtn) return;
+
+        // Add click event to menu button
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleMenu();
+        });
+
+        // Close menu on link click
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                this.closeMenu();
+            });
+        });
+
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                this.closeMenu();
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (event) => {
+            const menuBtn = document.querySelector('.nav-menu-btn');
+            
+            if (navMenu && menuBtn && 
+                !navMenu.contains(event.target) && 
+                !menuBtn.contains(event.target) && 
+                navMenu.classList.contains('active')) {
+                this.closeMenu();
+            }
+        });
+    }
+
+    toggleMenu() {
+        const navMenu = document.getElementById('myNavMenu');
+        
+        if (navMenu.classList.contains('active')) {
+            this.closeMenu();
+        } else {
+            this.openMenu();
+        }
+    }
+
+    openMenu() {
+        const navMenu = document.getElementById('myNavMenu');
+        const menuBtn = document.querySelector('.nav-menu-btn i');
+        
+        navMenu.classList.add('active');
+        menuBtn.classList.remove('uil-bars');
+        menuBtn.classList.add('uil-times');
+        document.body.style.overflow = 'hidden';
+    }
+
+    closeMenu() {
+        const navMenu = document.getElementById('myNavMenu');
+        const menuBtn = document.querySelector('.nav-menu-btn i');
+        
+        if (navMenu) navMenu.classList.remove('active');
+        if (menuBtn) {
+            menuBtn.classList.remove('uil-times');
+            menuBtn.classList.add('uil-bars');
+        }
+        document.body.style.overflow = '';
     }
 
     setupSmoothScrolling() {
@@ -122,6 +195,8 @@ class PortfolioManager {
                         behavior: 'smooth'
                     });
                 }
+                
+                this.closeMenu();
             });
         });
     }
@@ -153,110 +228,111 @@ class PortfolioManager {
         });
     }
 
-    // ===== SKILLS TOGGLE FUNCTIONALITY =====
-    setupSkillsToggle() {
-        const toggleBtns = document.querySelectorAll('[data-toggle-btn]');
-        const skillsList = document.querySelector('.skills-list');
-        const toolsList = document.querySelector('.tools-list');
-        const toggleBox = document.querySelector('[data-toggle-box]');
+    // ===== SKILLS TOGGLE FUNCTIONALITY - FIXED =====
+    // ===== SKILLS TOGGLE FUNCTIONALITY - FIXED =====
+setupSkillsToggle() {
+    const toggleBtns = document.querySelectorAll('[data-toggle-btn]');
+    const skillsList = document.querySelector('.skills-list');
+    const toolsList = document.querySelector('.tools-list');
+    const toggleBox = document.querySelector('[data-toggle-box]');
 
-        if (!toggleBox || toggleBtns.length === 0 || !skillsList || !toolsList) {
-            console.warn('Skills toggle elements not found');
-            return;
-        }
+    if (!toggleBox || toggleBtns.length === 0 || !skillsList || !toolsList) {
+        console.warn('Skills toggle elements not found');
+        return;
+    }
 
-        // Initialize default state
-        this.initializeDefaultSkillsState();
+    // Initialize default state
+    this.initializeDefaultSkillsState();
 
-        // Add click event to each toggle button
-        toggleBtns.forEach((btn, index) => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                // Remove active class from all buttons
-                toggleBtns.forEach(toggleBtn => {
-                    toggleBtn.classList.remove('active');
-                });
-                
-                // Add active class to clicked button
-                btn.classList.add('active');
-                
-                // Get button text to determine action
-                const buttonText = btn.textContent.toLowerCase().trim();
-                
-                // Toggle between skills and tools based on button text
-                if (buttonText.includes('skills')) {
-                    // Show skills, hide tools
-                    skillsList.style.display = 'flex';
-                    toolsList.style.display = 'none';
-                    skillsList.classList.add('active');
-                    toolsList.classList.remove('active');
-                    
-                    // Move toggle background to first button (Skills)
-                    this.moveToggleBackground(toggleBox, 0);
-                } else if (buttonText.includes('tools')) {
-                    // Show tools, hide skills
-                    skillsList.style.display = 'none';
-                    toolsList.style.display = 'flex';
-                    skillsList.classList.remove('active');
-                    toolsList.classList.add('active');
-                    
-                    // Move toggle background to second button (Tools)
-                    this.moveToggleBackground(toggleBox, 1);
-                }
+    // Add click event to each toggle button
+    toggleBtns.forEach((btn, index) => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Remove active class from all buttons
+            toggleBtns.forEach(toggleBtn => {
+                toggleBtn.classList.remove('active');
             });
-        });
-    }
-
-    // Move the toggle background indicator
-    moveToggleBackground(toggleBox, buttonIndex) {
-        const toggleBtns = toggleBox.querySelectorAll('[data-toggle-btn]');
-        if (toggleBtns.length === 0) return;
-        
-        const buttonWidth = toggleBtns[0].offsetWidth;
-        const translateX = buttonIndex * buttonWidth;
-        
-        // Create and apply style for the toggle background
-        const styleId = 'toggle-background-style';
-        let styleElement = document.getElementById(styleId);
-        
-        if (!styleElement) {
-            styleElement = document.createElement('style');
-            styleElement.id = styleId;
-            document.head.appendChild(styleElement);
-        }
-        
-        styleElement.textContent = `
-            .skills-toggle::before {
-                transform: translateX(${translateX}px) !important;
-                width: ${buttonWidth}px !important;
-            }
-        `;
-    }
-
-    // Initialize default state for skills
-    initializeDefaultSkillsState() {
-        const skillsList = document.querySelector('.skills-list');
-        const toolsList = document.querySelector('.tools-list');
-        const skillsBtn = document.querySelector('[data-toggle-btn]:first-child');
-        const toggleBox = document.querySelector('[data-toggle-box]');
-        
-        if (skillsList && toolsList && skillsBtn) {
-            // Set initial display states
-            skillsList.style.display = 'flex';
-            toolsList.style.display = 'none';
             
-            // Set initial classes
-            skillsList.classList.add('active');
-            toolsList.classList.remove('active');
-            skillsBtn.classList.add('active');
+            // Add active class to clicked button
+            btn.classList.add('active');
             
-            // Initialize toggle background position
-            if (toggleBox) {
+            // Get button text to determine action
+            const buttonText = btn.textContent.toLowerCase().trim();
+            
+            // Toggle between skills and tools based on button text
+            if (buttonText.includes('skills')) {
+                // Show skills, hide tools
+                skillsList.style.display = 'flex';
+                toolsList.style.display = 'none';
+                skillsList.classList.add('active');
+                toolsList.classList.remove('active');
+                
+                // Move toggle background to first button (Skills)
                 this.moveToggleBackground(toggleBox, 0);
+            } else if (buttonText.includes('tools')) {
+                // Show tools, hide skills
+                skillsList.style.display = 'none';
+                toolsList.style.display = 'flex';
+                skillsList.classList.remove('active');
+                toolsList.classList.add('active');
+                
+                // Move toggle background to second button (Tools)
+                this.moveToggleBackground(toggleBox, 1);
             }
+        });
+    });
+}
+
+// Move the toggle background indicator
+moveToggleBackground(toggleBox, buttonIndex) {
+    const toggleBtns = toggleBox.querySelectorAll('[data-toggle-btn]');
+    if (toggleBtns.length === 0) return;
+    
+    const buttonWidth = toggleBtns[0].offsetWidth;
+    const translateX = buttonIndex * buttonWidth;
+    
+    // Create and apply style for the toggle background
+    const styleId = 'toggle-background-style';
+    let styleElement = document.getElementById(styleId);
+    
+    if (!styleElement) {
+        styleElement = document.createElement('style');
+        styleElement.id = styleId;
+        document.head.appendChild(styleElement);
+    }
+    
+    styleElement.textContent = `
+        .skills-toggle::before {
+            transform: translateX(${translateX}px) !important;
+            width: ${buttonWidth}px !important;
+        }
+    `;
+}
+
+// Initialize default state for skills
+initializeDefaultSkillsState() {
+    const skillsList = document.querySelector('.skills-list');
+    const toolsList = document.querySelector('.tools-list');
+    const skillsBtn = document.querySelector('[data-toggle-btn]:first-child');
+    const toggleBox = document.querySelector('[data-toggle-box]');
+    
+    if (skillsList && toolsList && skillsBtn) {
+        // Set initial display states
+        skillsList.style.display = 'flex';
+        toolsList.style.display = 'none';
+        
+        // Set initial classes
+        skillsList.classList.add('active');
+        toolsList.classList.remove('active');
+        skillsBtn.classList.add('active');
+        
+        // Initialize toggle background position
+        if (toggleBox) {
+            this.moveToggleBackground(toggleBox, 0);
         }
     }
+}
 
     // ===== TOOLTIP FUNCTIONALITY =====
     setupTooltips() {
@@ -567,6 +643,22 @@ class PortfolioManager {
     }
 }
 
+// ===== GLOBAL FUNCTIONS FOR COMPATIBILITY =====
+
+// Function for mobile menu toggle (for onclick handler)
+function myMenuFunction() {
+    if (window.portfolioManager && window.portfolioManager.isInitialized) {
+        window.portfolioManager.toggleMenu();
+    }
+}
+
+// Alternative function name for compatibility
+function toggleMenu() {
+    if (window.portfolioManager && window.portfolioManager.isInitialized) {
+        window.portfolioManager.toggleMenu();
+    }
+}
+
 // ===== INITIALIZATION =====
 let portfolioManager;
 
@@ -589,6 +681,16 @@ window.addEventListener('load', () => {
     console.log('Portfolio loaded successfully');
 });
 
+// Handle window resize
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 900) {
+        // Close mobile menu on resize to desktop
+        if (portfolioManager && portfolioManager.isInitialized) {
+            portfolioManager.closeMenu();
+        }
+    }
+});
+
 // Handle scroll events for navbar transparency
 window.addEventListener('scroll', () => {
     const nav = document.getElementById('header');
@@ -600,112 +702,3 @@ window.addEventListener('scroll', () => {
         }
     }
 });
-
-
-
-// ===== STANDALONE NAVIGATION JS =====
-// Mobile Navigation Menu Manager
-
-class MobileNavigation {
-    constructor() {
-        this.init();
-    }
-
-    init() {
-        this.setupMobileMenu();
-    }
-
-    setupMobileMenu() {
-        const navMenu = document.getElementById('myNavMen');
-        const menuBtn = document.querySelector('.nav-menu-btn');
-        const menuIcon = document.querySelector('.nav-menu-btn i');
-        const navLinks = document.querySelectorAll('.nav-link');
-
-        if (!navMenu || !menuBtn || !menuIcon) return;
-
-        // Add click event to menu button
-        menuBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            this.toggleMenu();
-        });
-
-        // Close menu on link click
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                this.closeMenu();
-            });
-        });
-
-        // Close menu on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
-                this.closeMenu();
-            }
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (navMenu.classList.contains('active') && 
-                !navMenu.contains(e.target) && 
-                !menuBtn.contains(e.target)) {
-                this.closeMenu();
-            }
-        });
-    }
-
-    toggleMenu() {
-        const navMenu = document.getElementById('myNavMen');
-        const menuIcon = document.querySelector('.nav-menu-btn i');
-        
-        if (!navMenu || !menuIcon) return;
-
-        const isActive = navMenu.classList.contains('active');
-        
-        if (isActive) {
-            this.closeMenu();
-        } else {
-            this.openMenu();
-        }
-    }
-
-    openMenu() {
-        const navMenu = document.getElementById('myNavMen');
-        const menuIcon = document.querySelector('.nav-menu-btn i');
-        const menuBtn = document.querySelector('.nav-menu-btn');
-        
-        if (!navMenu || !menuIcon || !menuBtn) return;
-
-        navMenu.classList.add('active');
-        menuIcon.classList.remove('uil-bars');
-        menuIcon.classList.add('uil-times');
-        menuBtn.setAttribute('aria-expanded', 'true');
-        document.body.style.overflow = 'hidden';
-    }
-
-    closeMenu() {
-        const navMenu = document.getElementById('myNavMen');
-        const menuIcon = document.querySelector('.nav-menu-btn i');
-        const menuBtn = document.querySelector('.nav-menu-btn');
-        
-        if (!navMenu || !menuIcon || !menuBtn) return;
-
-        navMenu.classList.remove('active');
-        menuIcon.classList.remove('uil-times');
-        menuIcon.classList.add('uil-bars');
-        menuBtn.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-    }
-}
-
-// Initialize mobile navigation when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    window.mobileNav = new MobileNavigation();
-});
-
-// Function for HTML onclick attribute (if needed)
-function toggleMenu() {
-    if (window.mobileNav) {
-        window.mobileNav.toggleMenu();
-    }
-}

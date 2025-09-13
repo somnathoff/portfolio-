@@ -290,6 +290,10 @@ nav {
   margin-block: 20px;
   line-height: 1.2;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  position: relative;
+  min-height: 1.2em;
+  display: inline-block;
+  min-width: 280px;
 }
 
 .typedText {
@@ -298,7 +302,10 @@ nav {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: none;
-  position: relative;
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
 }
 
 .typedText::after {
@@ -1825,6 +1832,8 @@ footer::before {
     justify-content: center;
     cursor: pointer;
     padding: 8px;
+    position: relative;
+    z-index: 1000;
   }
   
   .nav-menu {

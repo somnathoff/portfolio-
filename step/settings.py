@@ -134,8 +134,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
     
 WHITENOISE_MAX_AGE = 31536000 if not DEBUG else 0  # 1 year for production
 WHITENOISE_USE_FINDERS = True

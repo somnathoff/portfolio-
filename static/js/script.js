@@ -11,8 +11,8 @@ class PortfolioManager {
         
         try {
             await this.waitForDOM();
-            this.setupTypingAnimation();
             this.setupNavigation();
+            this.setupTypingAnimation();
             this.setupSkillsToggle();
             this.setupTooltips();
             this.setupDownloadButton();
@@ -35,66 +35,6 @@ class PortfolioManager {
         });
     }
 
-    // ===== TYPING ANIMATION =====
-    setupTypingAnimation() {
-        const typedElement = document.querySelector('.typedText');
-        if (!typedElement) return;
-
-        // Check if Typed.js is available
-        if (typeof Typed !== 'undefined') {
-            new Typed('.typedText', {
-                strings: ['SOMNATH', 'Problem Solver', 'Full Stack Developer', 'Machine Learning Engineer', 'Data Scientist'],
-                loop: true,
-                typeSpeed: 100,
-                backSpeed: 80,
-                backDelay: 2000,
-                showCursor: true,
-                cursorChar: '|',
-                autoInsertCss: true,
-            });
-        } else {
-            // Fallback typing animation
-            this.setupFallbackTyping(typedElement);
-        }
-    }
-
-    setupFallbackTyping(element) {
-        const texts = ['SOMNATH', 'Problem Solver', 'Full Stack Developer', 'Machine Learning Engineer', 'Data Scientist'];
-        let textIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        
-        const typeSpeed = 100;
-        const deleteSpeed = 50;
-        const pauseTime = 2000;
-
-        function type() {
-            const currentText = texts[textIndex];
-            
-            if (isDeleting) {
-                element.textContent = currentText.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                element.textContent = currentText.substring(0, charIndex + 1);
-                charIndex++;
-            }
-
-            let typeSpeedCurrent = isDeleting ? deleteSpeed : typeSpeed;
-
-            if (!isDeleting && charIndex === currentText.length) {
-                typeSpeedCurrent = pauseTime;
-                isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                textIndex = (textIndex + 1) % texts.length;
-            }
-
-            setTimeout(type, typeSpeedCurrent);
-        }
-        
-        type();
-    }
-
     // ===== NAVIGATION =====
     setupNavigation() {
         this.setupMobileMenu();
@@ -104,13 +44,15 @@ class PortfolioManager {
 
     setupMobileMenu() {
         const navMenu = document.getElementById('myNavMenu');
-        const menuBtn = document.querySelector('.nav-menu-btn i');
+        const menuBtn = document.querySelector('.nav-menu-btn');
+        const menuIcon = document.querySelector('.nav-menu-btn i');
         const navLinks = document.querySelectorAll('.nav-link');
 
-        if (!navMenu || !menuBtn) return;
+        if (!navMenu || !menuBtn || !menuIcon) return;
 
         // Add click event to menu button
         menuBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             e.stopPropagation();
             this.toggleMenu();
         });
@@ -131,8 +73,6 @@ class PortfolioManager {
 
         // Close menu when clicking outside
         document.addEventListener('click', (event) => {
-            const menuBtn = document.querySelector('.nav-menu-btn');
-            
             if (navMenu && menuBtn && 
                 !navMenu.contains(event.target) && 
                 !menuBtn.contains(event.target) && 
@@ -154,22 +94,22 @@ class PortfolioManager {
 
     openMenu() {
         const navMenu = document.getElementById('myNavMenu');
-        const menuBtn = document.querySelector('.nav-menu-btn i');
+        const menuIcon = document.querySelector('.nav-menu-btn i');
         
         navMenu.classList.add('active');
-        menuBtn.classList.remove('uil-bars');
-        menuBtn.classList.add('uil-times');
+        menuIcon.classList.remove('uil-bars');
+        menuIcon.classList.add('uil-times');
         document.body.style.overflow = 'hidden';
     }
 
     closeMenu() {
         const navMenu = document.getElementById('myNavMenu');
-        const menuBtn = document.querySelector('.nav-menu-btn i');
+        const menuIcon = document.querySelector('.nav-menu-btn i');
         
         if (navMenu) navMenu.classList.remove('active');
-        if (menuBtn) {
-            menuBtn.classList.remove('uil-times');
-            menuBtn.classList.add('uil-bars');
+        if (menuIcon) {
+            menuIcon.classList.remove('uil-times');
+            menuIcon.classList.add('uil-bars');
         }
         document.body.style.overflow = '';
     }
@@ -228,111 +168,177 @@ class PortfolioManager {
         });
     }
 
-    // ===== SKILLS TOGGLE FUNCTIONALITY - FIXED =====
-    // ===== SKILLS TOGGLE FUNCTIONALITY - FIXED =====
-setupSkillsToggle() {
-    const toggleBtns = document.querySelectorAll('[data-toggle-btn]');
-    const skillsList = document.querySelector('.skills-list');
-    const toolsList = document.querySelector('.tools-list');
-    const toggleBox = document.querySelector('[data-toggle-box]');
+    // ===== TYPING ANIMATION =====
+    setupTypingAnimation() {
+        const typedElement = document.querySelector('.typedText');
+        if (!typedElement) return;
 
-    if (!toggleBox || toggleBtns.length === 0 || !skillsList || !toolsList) {
-        console.warn('Skills toggle elements not found');
-        return;
-    }
+        // Set fixed width to prevent layout shifts
+        const featuredName = document.querySelector('.featured-name');
+        if (featuredName) {
+            featuredName.style.width = '100%';
+            featuredName.style.position = 'relative';
+        }
 
-    // Initialize default state
-    this.initializeDefaultSkillsState();
-
-    // Add click event to each toggle button
-    toggleBtns.forEach((btn, index) => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            // Remove active class from all buttons
-            toggleBtns.forEach(toggleBtn => {
-                toggleBtn.classList.remove('active');
+        // Check if Typed.js is available
+        if (typeof Typed !== 'undefined') {
+            new Typed('.typedText', {
+                strings: ['SOMNATH', 'Problem Solver', 'Full Stack Developer', 'Machine Learning Engineer', 'Data Scientist'],
+                loop: true,
+                typeSpeed: 100,
+                backSpeed: 80,
+                backDelay: 2000,
+                showCursor: true,
+                cursorChar: '|',
+                autoInsertCss: true,
             });
+        } else {
+            // Fallback typing animation
+            this.setupFallbackTyping(typedElement);
+        }
+    }
+
+    setupFallbackTyping(element) {
+        const texts = ['SOMNATH', 'Problem Solver', 'Full Stack Developer', 'Machine Learning Engineer', 'Data Scientist'];
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        
+        const typeSpeed = 100;
+        const deleteSpeed = 50;
+        const pauseTime = 2000;
+
+        function type() {
+            const currentText = texts[textIndex];
             
-            // Add active class to clicked button
-            btn.classList.add('active');
-            
-            // Get button text to determine action
-            const buttonText = btn.textContent.toLowerCase().trim();
-            
-            // Toggle between skills and tools based on button text
-            if (buttonText.includes('skills')) {
-                // Show skills, hide tools
-                skillsList.style.display = 'flex';
-                toolsList.style.display = 'none';
-                skillsList.classList.add('active');
-                toolsList.classList.remove('active');
-                
-                // Move toggle background to first button (Skills)
-                this.moveToggleBackground(toggleBox, 0);
-            } else if (buttonText.includes('tools')) {
-                // Show tools, hide skills
-                skillsList.style.display = 'none';
-                toolsList.style.display = 'flex';
-                skillsList.classList.remove('active');
-                toolsList.classList.add('active');
-                
-                // Move toggle background to second button (Tools)
-                this.moveToggleBackground(toggleBox, 1);
+            if (isDeleting) {
+                element.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                element.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
             }
+
+            let typeSpeedCurrent = isDeleting ? deleteSpeed : typeSpeed;
+
+            if (!isDeleting && charIndex === currentText.length) {
+                typeSpeedCurrent = pauseTime;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+            }
+
+            setTimeout(type, typeSpeedCurrent);
+        }
+        
+        type();
+    }
+
+    // ===== SKILLS TOGGLE FUNCTIONALITY =====
+    setupSkillsToggle() {
+        const toggleBtns = document.querySelectorAll('[data-toggle-btn]');
+        const skillsList = document.querySelector('.skills-list');
+        const toolsList = document.querySelector('.tools-list');
+        const toggleBox = document.querySelector('[data-toggle-box]');
+
+        if (!toggleBox || toggleBtns.length === 0 || !skillsList || !toolsList) {
+            console.warn('Skills toggle elements not found');
+            return;
+        }
+
+        // Initialize default state
+        this.initializeDefaultSkillsState();
+
+        // Add click event to each toggle button
+        toggleBtns.forEach((btn, index) => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all buttons
+                toggleBtns.forEach(toggleBtn => {
+                    toggleBtn.classList.remove('active');
+                });
+                
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                // Get button text to determine action
+                const buttonText = btn.textContent.toLowerCase().trim();
+                
+                // Toggle between skills and tools based on button text
+                if (buttonText.includes('skills')) {
+                    // Show skills, hide tools
+                    skillsList.style.display = 'flex';
+                    toolsList.style.display = 'none';
+                    skillsList.classList.add('active');
+                    toolsList.classList.remove('active');
+                    
+                    // Move toggle background to first button (Skills)
+                    this.moveToggleBackground(toggleBox, 0);
+                } else if (buttonText.includes('tools')) {
+                    // Show tools, hide skills
+                    skillsList.style.display = 'none';
+                    toolsList.style.display = 'flex';
+                    skillsList.classList.remove('active');
+                    toolsList.classList.add('active');
+                    
+                    // Move toggle background to second button (Tools)
+                    this.moveToggleBackground(toggleBox, 1);
+                }
+            });
         });
-    });
-}
-
-// Move the toggle background indicator
-moveToggleBackground(toggleBox, buttonIndex) {
-    const toggleBtns = toggleBox.querySelectorAll('[data-toggle-btn]');
-    if (toggleBtns.length === 0) return;
-    
-    const buttonWidth = toggleBtns[0].offsetWidth;
-    const translateX = buttonIndex * buttonWidth;
-    
-    // Create and apply style for the toggle background
-    const styleId = 'toggle-background-style';
-    let styleElement = document.getElementById(styleId);
-    
-    if (!styleElement) {
-        styleElement = document.createElement('style');
-        styleElement.id = styleId;
-        document.head.appendChild(styleElement);
     }
-    
-    styleElement.textContent = `
-        .skills-toggle::before {
-            transform: translateX(${translateX}px) !important;
-            width: ${buttonWidth}px !important;
-        }
-    `;
-}
 
-// Initialize default state for skills
-initializeDefaultSkillsState() {
-    const skillsList = document.querySelector('.skills-list');
-    const toolsList = document.querySelector('.tools-list');
-    const skillsBtn = document.querySelector('[data-toggle-btn]:first-child');
-    const toggleBox = document.querySelector('[data-toggle-box]');
-    
-    if (skillsList && toolsList && skillsBtn) {
-        // Set initial display states
-        skillsList.style.display = 'flex';
-        toolsList.style.display = 'none';
+    // Move the toggle background indicator
+    moveToggleBackground(toggleBox, buttonIndex) {
+        const toggleBtns = toggleBox.querySelectorAll('[data-toggle-btn]');
+        if (toggleBtns.length === 0) return;
         
-        // Set initial classes
-        skillsList.classList.add('active');
-        toolsList.classList.remove('active');
-        skillsBtn.classList.add('active');
+        const buttonWidth = toggleBtns[0].offsetWidth;
+        const translateX = buttonIndex * buttonWidth;
         
-        // Initialize toggle background position
-        if (toggleBox) {
-            this.moveToggleBackground(toggleBox, 0);
+        // Create and apply style for the toggle background
+        const styleId = 'toggle-background-style';
+        let styleElement = document.getElementById(styleId);
+        
+        if (!styleElement) {
+            styleElement = document.createElement('style');
+            styleElement.id = styleId;
+            document.head.appendChild(styleElement);
+        }
+        
+        styleElement.textContent = `
+            .skills-toggle::before {
+                transform: translateX(${translateX}px) !important;
+                width: ${buttonWidth}px !important;
+            }
+        `;
+    }
+
+    // Initialize default state for skills
+    initializeDefaultSkillsState() {
+        const skillsList = document.querySelector('.skills-list');
+        const toolsList = document.querySelector('.tools-list');
+        const skillsBtn = document.querySelector('[data-toggle-btn]:first-child');
+        const toggleBox = document.querySelector('[data-toggle-box]');
+        
+        if (skillsList && toolsList && skillsBtn) {
+            // Set initial display states
+            skillsList.style.display = 'flex';
+            toolsList.style.display = 'none';
+            
+            // Set initial classes
+            skillsList.classList.add('active');
+            toolsList.classList.remove('active');
+            skillsBtn.classList.add('active');
+            
+            // Initialize toggle background position
+            if (toggleBox) {
+                this.moveToggleBackground(toggleBox, 0);
+            }
         }
     }
-}
 
     // ===== TOOLTIP FUNCTIONALITY =====
     setupTooltips() {

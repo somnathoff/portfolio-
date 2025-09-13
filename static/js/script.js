@@ -173,25 +173,27 @@ class PortfolioManager {
         const typedElement = document.querySelector('.typedText');
         if (!typedElement) return;
 
-        // Get the container and set fixed dimensions to prevent layout shifts
-        const container = typedElement.parentElement;
-        if (container) {
-            // Set a fixed height and width to prevent any movement
-            container.style.minHeight = '1.5em';
-            container.style.height = '1.5em';
-            container.style.overflow = 'hidden';
-            container.style.position = 'relative';
+        // Get the featured-name container (parent of the paragraph containing .typedText)
+        const featuredName = document.querySelector('.featured-name');
+        const textParagraph = typedElement.parentElement;
+        
+        if (featuredName && textParagraph) {
+            // Set fixed dimensions on the featured-name container to prevent layout shifts
+            featuredName.style.minHeight = '3.5rem';
+            featuredName.style.height = 'auto';
+            featuredName.style.overflow = 'visible';
+            
+            // Ensure the paragraph has proper constraints
+            textParagraph.style.minHeight = '3rem';
+            textParagraph.style.display = 'flex';
+            textParagraph.style.alignItems = 'center';
+            textParagraph.style.flexWrap = 'wrap';
         }
 
-        // Set fixed styles on the typed element to prevent movement
-        typedElement.style.position = 'absolute';
-        typedElement.style.top = '0';
-        typedElement.style.left = '0';
-        typedElement.style.width = '100%';
-        typedElement.style.height = '100%';
+        // Set styles on typed element to prevent width changes from affecting layout
         typedElement.style.display = 'inline-block';
+        typedElement.style.minWidth = '200px';
         typedElement.style.whiteSpace = 'nowrap';
-        typedElement.style.overflow = 'hidden';
 
         // Check if Typed.js is available
         if (typeof Typed !== 'undefined') {
@@ -203,10 +205,18 @@ class PortfolioManager {
                 backDelay: 2000,
                 showCursor: true,
                 cursorChar: '|',
-                autoInsertCss: true
+                autoInsertCss: false,
+                // Prevent Typed.js from manipulating styles that could cause layout shifts
+                onBegin: (self) => {
+                    self.el.style.display = 'inline-block';
+                    self.el.style.minWidth = '200px';
+                },
+                onComplete: (self) => {
+                    self.el.style.display = 'inline-block';
+                }
             });
         } else {
-            // Fallback typing animation with fixed positioning
+            // Fallback typing animation
             this.setupFallbackTyping(typedElement);
         }
     }

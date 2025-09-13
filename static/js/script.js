@@ -95,7 +95,7 @@ class PortfolioManager {
         type();
     }
 
-    // ===== NAVIGATION =====
+     // ===== NAVIGATION =====
     setupNavigation() {
         this.setupMobileMenu();
         this.setupSmoothScrolling();
@@ -230,109 +230,111 @@ class PortfolioManager {
         });
     }
 
-    // ===== SKILLS TOGGLE FUNCTIONALITY =====
-    setupSkillsToggle() {
-        const toggleBtns = document.querySelectorAll('[data-toggle-btn]');
-        const skillsList = document.querySelector('.skills-list');
-        const toolsList = document.querySelector('.tools-list');
-        const toggleBox = document.querySelector('[data-toggle-box]');
+    // ===== SKILLS TOGGLE FUNCTIONALITY - FIXED =====
+    // ===== SKILLS TOGGLE FUNCTIONALITY - FIXED =====
+setupSkillsToggle() {
+    const toggleBtns = document.querySelectorAll('[data-toggle-btn]');
+    const skillsList = document.querySelector('.skills-list');
+    const toolsList = document.querySelector('.tools-list');
+    const toggleBox = document.querySelector('[data-toggle-box]');
 
-        if (!toggleBox || toggleBtns.length === 0 || !skillsList || !toolsList) {
-            return;
-        }
+    if (!toggleBox || toggleBtns.length === 0 || !skillsList || !toolsList) {
+        console.warn('Skills toggle elements not found');
+        return;
+    }
 
-        // Initialize default state
-        this.initializeDefaultSkillsState();
+    // Initialize default state
+    this.initializeDefaultSkillsState();
 
-        // Add click event to each toggle button
-        toggleBtns.forEach((btn, index) => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                // Remove active class from all buttons
-                toggleBtns.forEach(toggleBtn => {
-                    toggleBtn.classList.remove('active');
-                });
-                
-                // Add active class to clicked button
-                btn.classList.add('active');
-                
-                // Get button text to determine action
-                const buttonText = btn.textContent.toLowerCase().trim();
-                
-                // Toggle between skills and tools based on button text
-                if (buttonText.includes('skills')) {
-                    // Show skills, hide tools
-                    skillsList.style.display = 'flex';
-                    toolsList.style.display = 'none';
-                    skillsList.classList.add('active');
-                    toolsList.classList.remove('active');
-                    
-                    // Move toggle background to first button (Skills)
-                    this.moveToggleBackground(toggleBox, 0);
-                } else if (buttonText.includes('tools')) {
-                    // Show tools, hide skills
-                    skillsList.style.display = 'none';
-                    toolsList.style.display = 'flex';
-                    skillsList.classList.remove('active');
-                    toolsList.classList.add('active');
-                    
-                    // Move toggle background to second button (Tools)
-                    this.moveToggleBackground(toggleBox, 1);
-                }
+    // Add click event to each toggle button
+    toggleBtns.forEach((btn, index) => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Remove active class from all buttons
+            toggleBtns.forEach(toggleBtn => {
+                toggleBtn.classList.remove('active');
             });
-        });
-    }
-
-    // Move the toggle background indicator
-    moveToggleBackground(toggleBox, buttonIndex) {
-        const toggleBtns = toggleBox.querySelectorAll('[data-toggle-btn]');
-        if (toggleBtns.length === 0) return;
-        
-        const buttonWidth = toggleBtns[0].offsetWidth;
-        const translateX = buttonIndex * buttonWidth;
-        
-        // Create and apply style for the toggle background
-        const styleId = 'toggle-background-style';
-        let styleElement = document.getElementById(styleId);
-        
-        if (!styleElement) {
-            styleElement = document.createElement('style');
-            styleElement.id = styleId;
-            document.head.appendChild(styleElement);
-        }
-        
-        styleElement.textContent = `
-            .skills-toggle::before {
-                transform: translateX(${translateX}px) !important;
-                width: ${buttonWidth}px !important;
-            }
-        `;
-    }
-
-    // Initialize default state for skills
-    initializeDefaultSkillsState() {
-        const skillsList = document.querySelector('.skills-list');
-        const toolsList = document.querySelector('.tools-list');
-        const skillsBtn = document.querySelector('[data-toggle-btn]:first-child');
-        const toggleBox = document.querySelector('[data-toggle-box]');
-        
-        if (skillsList && toolsList && skillsBtn) {
-            // Set initial display states
-            skillsList.style.display = 'flex';
-            toolsList.style.display = 'none';
             
-            // Set initial classes
-            skillsList.classList.add('active');
-            toolsList.classList.remove('active');
-            skillsBtn.classList.add('active');
+            // Add active class to clicked button
+            btn.classList.add('active');
             
-            // Initialize toggle background position
-            if (toggleBox) {
+            // Get button text to determine action
+            const buttonText = btn.textContent.toLowerCase().trim();
+            
+            // Toggle between skills and tools based on button text
+            if (buttonText.includes('skills')) {
+                // Show skills, hide tools
+                skillsList.style.display = 'flex';
+                toolsList.style.display = 'none';
+                skillsList.classList.add('active');
+                toolsList.classList.remove('active');
+                
+                // Move toggle background to first button (Skills)
                 this.moveToggleBackground(toggleBox, 0);
+            } else if (buttonText.includes('tools')) {
+                // Show tools, hide skills
+                skillsList.style.display = 'none';
+                toolsList.style.display = 'flex';
+                skillsList.classList.remove('active');
+                toolsList.classList.add('active');
+                
+                // Move toggle background to second button (Tools)
+                this.moveToggleBackground(toggleBox, 1);
             }
+        });
+    });
+}
+
+// Move the toggle background indicator
+moveToggleBackground(toggleBox, buttonIndex) {
+    const toggleBtns = toggleBox.querySelectorAll('[data-toggle-btn]');
+    if (toggleBtns.length === 0) return;
+    
+    const buttonWidth = toggleBtns[0].offsetWidth;
+    const translateX = buttonIndex * buttonWidth;
+    
+    // Create and apply style for the toggle background
+    const styleId = 'toggle-background-style';
+    let styleElement = document.getElementById(styleId);
+    
+    if (!styleElement) {
+        styleElement = document.createElement('style');
+        styleElement.id = styleId;
+        document.head.appendChild(styleElement);
+    }
+    
+    styleElement.textContent = `
+        .skills-toggle::before {
+            transform: translateX(${translateX}px) !important;
+            width: ${buttonWidth}px !important;
+        }
+    `;
+}
+
+// Initialize default state for skills
+initializeDefaultSkillsState() {
+    const skillsList = document.querySelector('.skills-list');
+    const toolsList = document.querySelector('.tools-list');
+    const skillsBtn = document.querySelector('[data-toggle-btn]:first-child');
+    const toggleBox = document.querySelector('[data-toggle-box]');
+    
+    if (skillsList && toolsList && skillsBtn) {
+        // Set initial display states
+        skillsList.style.display = 'flex';
+        toolsList.style.display = 'none';
+        
+        // Set initial classes
+        skillsList.classList.add('active');
+        toolsList.classList.remove('active');
+        skillsBtn.classList.add('active');
+        
+        // Initialize toggle background position
+        if (toggleBox) {
+            this.moveToggleBackground(toggleBox, 0);
         }
     }
+}
 
     // ===== TOOLTIP FUNCTIONALITY =====
     setupTooltips() {
@@ -408,17 +410,31 @@ class PortfolioManager {
         if (!downloadBtn) return;
         
         downloadBtn.addEventListener('click', (e) => {
-            // Let the default download behavior work
+            // Prevent immediate navigation to allow animation to play
+            e.preventDefault();
+            
+            // Add downloading class for animation
             downloadBtn.classList.add('downloading');
             
+            // Store the original href
+            const originalHref = downloadBtn.href;
+            
+            // Simulate download process with a short delay
             setTimeout(() => {
+                // Remove downloading class and add success class
                 downloadBtn.classList.remove('downloading');
                 downloadBtn.classList.add('success');
                 
+                // Actually trigger the download after animation
                 setTimeout(() => {
-                    downloadBtn.classList.remove('success');
-                }, 2000);
-            }, 1000);
+                    window.location.href = originalHref;
+                    
+                    // Reset button after a delay
+                    setTimeout(() => {
+                        downloadBtn.classList.remove('success');
+                    }, 2000);
+                }, 1000);
+            }, 1500);
         });
     }
 
@@ -477,11 +493,10 @@ class PortfolioManager {
         
         let currentSlide = 0;
         let autoSlideInterval;
-        const autoSlideDelay = 3000;
+        const autoSlideDelay = 2500; // 2.5 seconds between slides
         
-        // Create dots
+        // Create dots - one for each slide
         const createDots = () => {
-            if (!dotsContainer) return;
             dotsContainer.innerHTML = '';
             
             for (let i = 0; i < totalSlides; i++) {
@@ -495,27 +510,26 @@ class PortfolioManager {
         
         // Update slider position
         const updateSlider = () => {
-            const translateX = -(currentSlide * 100);
+            // For single slide display, we just need to move to the correct slide
+            const translateX = -(currentSlide * 100); // 100% per slide
             track.style.transform = `translateX(${translateX}%)`;
             
             // Update dots
-            if (dotsContainer) {
-                const dots = dotsContainer.querySelectorAll('.dot');
-                dots.forEach((dot, index) => {
-                    dot.classList.toggle('active', index === currentSlide);
-                });
-            }
+            const dots = dotsContainer.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
             
             // Update button states
-            if (prevBtn) prevBtn.disabled = currentSlide <= 0;
-            if (nextBtn) nextBtn.disabled = currentSlide >= totalSlides - 1;
+            prevBtn.disabled = currentSlide <= 0;
+            nextBtn.disabled = currentSlide >= totalSlides - 1;
         };
         
         // Go to specific slide
         const goToSlide = (index) => {
             currentSlide = Math.max(0, Math.min(index, totalSlides - 1));
             updateSlider();
-            resetAutoSlide();
+            resetAutoSlide(); // Reset the timer when manually navigating
         };
         
         // Previous slide
@@ -523,7 +537,7 @@ class PortfolioManager {
             if (currentSlide > 0) {
                 currentSlide--;
                 updateSlider();
-                resetAutoSlide();
+                resetAutoSlide(); // Reset the timer when manually navigating
             }
         };
         
@@ -532,19 +546,18 @@ class PortfolioManager {
             if (currentSlide < totalSlides - 1) {
                 currentSlide++;
             } else {
+                // If we're at the last slide, loop back to the first
                 currentSlide = 0;
             }
             updateSlider();
-            resetAutoSlide();
+            resetAutoSlide(); // Reset the timer when manually navigating
         };
         
         // Auto advance to next slide
         const startAutoSlide = () => {
-            if (totalSlides > 1) {
-                autoSlideInterval = setInterval(() => {
-                    nextSlide();
-                }, autoSlideDelay);
-            }
+            autoSlideInterval = setInterval(() => {
+                nextSlide();
+            }, autoSlideDelay);
         };
         
         // Reset auto slide timer
@@ -553,18 +566,10 @@ class PortfolioManager {
             startAutoSlide();
         };
         
-        // Event listeners
-        if (prevBtn) prevBtn.addEventListener('click', prevSlide);
-        if (nextBtn) nextBtn.addEventListener('click', nextSlide);
-        
-        // Initialize
-        createDots();
-        updateSlider();
-        startAutoSlide();
-        
         // Pause auto slide on hover
-        const sliderContainer = track.closest('.certifications-slider');
-        if (sliderContainer) {
+        const setupAutoSlideControls = () => {
+            const sliderContainer = track.closest('.certifications-slider');
+            
             sliderContainer.addEventListener('mouseenter', () => {
                 clearInterval(autoSlideInterval);
             });
@@ -572,13 +577,84 @@ class PortfolioManager {
             sliderContainer.addEventListener('mouseleave', () => {
                 startAutoSlide();
             });
-        }
+            
+            // Also pause on focus for accessibility
+            sliderContainer.addEventListener('focusin', () => {
+                clearInterval(autoSlideInterval);
+            });
+            
+            sliderContainer.addEventListener('focusout', () => {
+                startAutoSlide();
+            });
+        };
+        
+        // Event listeners
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+        
+        // Handle window resize
+        const handleResize = () => {
+            // For single slide display, no special resize handling needed
+            updateSlider();
+        };
+        
+        // Initialize
+        window.addEventListener('resize', handleResize);
+        createDots();
+        updateSlider();
+        startAutoSlide();
+        setupAutoSlideControls();
+        
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                prevSlide();
+            } else if (e.key === 'ArrowRight') {
+                nextSlide();
+            }
+        });
+        
+        // Add swipe support for touch devices
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        track.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            clearInterval(autoSlideInterval); // Pause auto slide during interaction
+        }, false);
+        
+        track.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+            startAutoSlide(); // Resume auto slide after interaction
+        }, false);
+        
+        const handleSwipe = () => {
+            const minSwipeDistance = 50; // Minimum distance for a swipe to count
+            
+            if (touchEndX < touchStartX && touchStartX - touchEndX > minSwipeDistance) {
+                // Swipe left - go to next slide
+                nextSlide();
+            }
+            
+            if (touchEndX > touchStartX && touchEndX - touchStartX > minSwipeDistance) {
+                // Swipe right - go to previous slide
+                prevSlide();
+            }
+        };
     }
 }
 
 // ===== GLOBAL FUNCTIONS FOR COMPATIBILITY =====
 
 // Function for mobile menu toggle (for onclick handler)
+function myMenuFunction() {
+    if (window.portfolioManager && window.portfolioManager.isInitialized) {
+        window.portfolioManager.toggleMenu();
+    }
+}
+
+// Alternative function name for compatibility
 function toggleMenu() {
     if (window.portfolioManager && window.portfolioManager.isInitialized) {
         window.portfolioManager.toggleMenu();

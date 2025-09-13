@@ -35,7 +35,7 @@ class PortfolioManager {
         });
     }
 
-    // ===== NAVIGATION - SETUP FIRST =====
+    // ===== NAVIGATION - UPDATED TO MATCH PROJECT PAGE MANAGER =====
     setupNavigation() {
         this.setupMobileMenu();
         this.setupSmoothScrolling();
@@ -44,13 +44,15 @@ class PortfolioManager {
 
     setupMobileMenu() {
         const navMenu = document.getElementById('myNavMenu');
-        const menuBtn = document.querySelector('.nav-menu-btn i');
+        const menuBtn = document.querySelector('.nav-menu-btn');
+        const menuIcon = document.querySelector('.nav-menu-btn i');
         const navLinks = document.querySelectorAll('.nav-link');
 
-        if (!navMenu || !menuBtn) return;
+        if (!navMenu || !menuBtn || !menuIcon) return;
 
         // Add click event to menu button
         menuBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             e.stopPropagation();
             this.toggleMenu();
         });
@@ -70,13 +72,10 @@ class PortfolioManager {
         });
 
         // Close menu when clicking outside
-        document.addEventListener('click', (event) => {
-            const menuBtn = document.querySelector('.nav-menu-btn');
-            
-            if (navMenu && menuBtn && 
-                !navMenu.contains(event.target) && 
-                !menuBtn.contains(event.target) && 
-                navMenu.classList.contains('active')) {
+        document.addEventListener('click', (e) => {
+            if (navMenu.classList.contains('active') && 
+                !navMenu.contains(e.target) && 
+                !menuBtn.contains(e.target)) {
                 this.closeMenu();
             }
         });
@@ -84,8 +83,13 @@ class PortfolioManager {
 
     toggleMenu() {
         const navMenu = document.getElementById('myNavMenu');
+        const menuIcon = document.querySelector('.nav-menu-btn i');
         
-        if (navMenu.classList.contains('active')) {
+        if (!navMenu || !menuIcon) return;
+
+        const isActive = navMenu.classList.contains('active');
+        
+        if (isActive) {
             this.closeMenu();
         } else {
             this.openMenu();
@@ -94,23 +98,25 @@ class PortfolioManager {
 
     openMenu() {
         const navMenu = document.getElementById('myNavMenu');
-        const menuBtn = document.querySelector('.nav-menu-btn i');
+        const menuIcon = document.querySelector('.nav-menu-btn i');
         
+        if (!navMenu || !menuIcon) return;
+
         navMenu.classList.add('active');
-        menuBtn.classList.remove('uil-bars');
-        menuBtn.classList.add('uil-times');
+        menuIcon.classList.remove('uil-bars');
+        menuIcon.classList.add('uil-times');
         document.body.style.overflow = 'hidden';
     }
 
     closeMenu() {
         const navMenu = document.getElementById('myNavMenu');
-        const menuBtn = document.querySelector('.nav-menu-btn i');
+        const menuIcon = document.querySelector('.nav-menu-btn i');
         
-        if (navMenu) navMenu.classList.remove('active');
-        if (menuBtn) {
-            menuBtn.classList.remove('uil-times');
-            menuBtn.classList.add('uil-bars');
-        }
+        if (!navMenu || !menuIcon) return;
+
+        navMenu.classList.remove('active');
+        menuIcon.classList.remove('uil-times');
+        menuIcon.classList.add('uil-bars');
         document.body.style.overflow = '';
     }
 

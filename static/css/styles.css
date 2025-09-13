@@ -1819,12 +1819,14 @@ footer::before {
 
 /* Mobile Navigation & Base Layout */
 @media only screen and (max-width: 900px) {
-  .nav-menu-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    padding: 8px;
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto !important;
   }
   
   .nav-menu {
@@ -2144,20 +2146,20 @@ footer::before {
     padding-inline: 20px;
   }
   
-  nav {
+  .nav {
     height: 70px;
     line-height: 70px;
     padding-inline: 20px;
-  }
-  
-  .nav-name {
-    font-size: 22px;
   }
   
   .nav-menu {
     top: 70px;
     height: calc(100vh - 70px);
     padding-top: 40px;
+  }
+  
+  .nav-name {
+    font-size: 22px;
   }
 
   .featured-box {

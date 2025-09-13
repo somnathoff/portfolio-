@@ -104,18 +104,20 @@ class PortfolioManager {
 
     setupMobileMenu() {
         const navMenu = document.getElementById('myNavMenu');
-        const menuBtn = document.querySelector('.nav-menu-btn i');
+        const menuBtn = document.querySelector('.nav-menu-btn');
+        const menuIcon = document.querySelector('.nav-menu-btn i');
         const navLinks = document.querySelectorAll('.nav-link');
 
-        if (!navMenu || !menuBtn) return;
+        if (!navMenu || !menuBtn || !menuIcon) return;
 
         // Add click event to menu button
         menuBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             e.stopPropagation();
             this.toggleMenu();
         });
 
-        // Close menu on link click
+       // Close menu on link click
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
                 this.closeMenu();
@@ -130,13 +132,10 @@ class PortfolioManager {
         });
 
         // Close menu when clicking outside
-        document.addEventListener('click', (event) => {
-            const menuBtn = document.querySelector('.nav-menu-btn');
-            
-            if (navMenu && menuBtn && 
-                !navMenu.contains(event.target) && 
-                !menuBtn.contains(event.target) && 
-                navMenu.classList.contains('active')) {
+        document.addEventListener('click', (e) => {
+            if (navMenu.classList.contains('active') && 
+                !navMenu.contains(e.target) && 
+                !menuBtn.contains(e.target)) {
                 this.closeMenu();
             }
         });
@@ -228,7 +227,6 @@ class PortfolioManager {
         });
     }
 
-    // ===== SKILLS TOGGLE FUNCTIONALITY - FIXED =====
     // ===== SKILLS TOGGLE FUNCTIONALITY - FIXED =====
 setupSkillsToggle() {
     const toggleBtns = document.querySelectorAll('[data-toggle-btn]');

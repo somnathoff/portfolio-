@@ -168,16 +168,30 @@ class PortfolioManager {
         });
     }
 
-    // ===== TYPING ANIMATION - ISOLATED =====
+    // ===== TYPING ANIMATION - FIXED FOR MOBILE =====
     setupTypingAnimation() {
         const typedElement = document.querySelector('.typedText');
         if (!typedElement) return;
 
-        // Ensure the container has proper styling to prevent layout shifts
+        // Get the container and set fixed dimensions to prevent layout shifts
         const container = typedElement.parentElement;
         if (container) {
-            container.style.minHeight = '1.2em'; // Prevent height changes
+            // Set a fixed height and width to prevent any movement
+            container.style.minHeight = '1.5em';
+            container.style.height = '1.5em';
+            container.style.overflow = 'hidden';
+            container.style.position = 'relative';
         }
+
+        // Set fixed styles on the typed element to prevent movement
+        typedElement.style.position = 'absolute';
+        typedElement.style.top = '0';
+        typedElement.style.left = '0';
+        typedElement.style.width = '100%';
+        typedElement.style.height = '100%';
+        typedElement.style.display = 'inline-block';
+        typedElement.style.whiteSpace = 'nowrap';
+        typedElement.style.overflow = 'hidden';
 
         // Check if Typed.js is available
         if (typeof Typed !== 'undefined') {
@@ -189,20 +203,10 @@ class PortfolioManager {
                 backDelay: 2000,
                 showCursor: true,
                 cursorChar: '|',
-                autoInsertCss: true,
-                // Prevent any DOM manipulation that could affect other elements
-                onBegin: (self) => {
-                    // Ensure the element stays within bounds
-                    self.el.style.display = 'inline-block';
-                    self.el.style.minWidth = '200px';
-                },
-                onComplete: (self) => {
-                    // Keep consistent styling
-                    self.el.style.display = 'inline-block';
-                }
+                autoInsertCss: true
             });
         } else {
-            // Fallback typing animation with proper isolation
+            // Fallback typing animation with fixed positioning
             this.setupFallbackTyping(typedElement);
         }
     }
@@ -217,19 +221,14 @@ class PortfolioManager {
         const deleteSpeed = 50;
         const pauseTime = 2000;
 
-        // Set initial styles to prevent layout shifts
-        element.style.display = 'inline-block';
-        element.style.minWidth = '200px';
-        element.style.minHeight = '1.2em';
-
         function type() {
             const currentText = texts[textIndex];
             
             if (isDeleting) {
-                element.textContent = currentText.substring(0, charIndex - 1);
+                element.textContent = currentText.substring(0, charIndex - 1) + '|';
                 charIndex--;
             } else {
-                element.textContent = currentText.substring(0, charIndex + 1);
+                element.textContent = currentText.substring(0, charIndex + 1) + '|';
                 charIndex++;
             }
 

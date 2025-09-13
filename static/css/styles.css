@@ -213,10 +213,7 @@ nav {
   background: rgba(0, 212, 255, 0.1);
 }
 
-.nav-link:hover {
-  color: var(--first-color);
-  transform: translateY(-2px);
-}
+
 
 /* ===== MAIN WRAPPER ===== */
 .wrapper {

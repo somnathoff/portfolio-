@@ -109,7 +109,7 @@ class PortfolioManager {
 
         if (!navMenu || !menuBtn) return;
 
-        // Add click event to menu button
+        // Add click event to menu button - FIXED: Remove animation causing shaking
         menuBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             this.toggleMenu();
@@ -228,111 +228,110 @@ class PortfolioManager {
         });
     }
 
-    // ===== SKILLS TOGGLE FUNCTIONALITY - FIXED =====
-    // ===== SKILLS TOGGLE FUNCTIONALITY - FIXED =====
-setupSkillsToggle() {
-    const toggleBtns = document.querySelectorAll('[data-toggle-btn]');
-    const skillsList = document.querySelector('.skills-list');
-    const toolsList = document.querySelector('.tools-list');
-    const toggleBox = document.querySelector('[data-toggle-box]');
+    // ===== SKILLS TOGGLE FUNCTIONALITY =====
+    setupSkillsToggle() {
+        const toggleBtns = document.querySelectorAll('[data-toggle-btn]');
+        const skillsList = document.querySelector('.skills-list');
+        const toolsList = document.querySelector('.tools-list');
+        const toggleBox = document.querySelector('[data-toggle-box]');
 
-    if (!toggleBox || toggleBtns.length === 0 || !skillsList || !toolsList) {
-        console.warn('Skills toggle elements not found');
-        return;
-    }
+        if (!toggleBox || toggleBtns.length === 0 || !skillsList || !toolsList) {
+            console.warn('Skills toggle elements not found');
+            return;
+        }
 
-    // Initialize default state
-    this.initializeDefaultSkillsState();
+        // Initialize default state
+        this.initializeDefaultSkillsState();
 
-    // Add click event to each toggle button
-    toggleBtns.forEach((btn, index) => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            // Remove active class from all buttons
-            toggleBtns.forEach(toggleBtn => {
-                toggleBtn.classList.remove('active');
+        // Add click event to each toggle button
+        toggleBtns.forEach((btn, index) => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all buttons
+                toggleBtns.forEach(toggleBtn => {
+                    toggleBtn.classList.remove('active');
+                });
+                
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                // Get button text to determine action
+                const buttonText = btn.textContent.toLowerCase().trim();
+                
+                // Toggle between skills and tools based on button text
+                if (buttonText.includes('skills')) {
+                    // Show skills, hide tools
+                    skillsList.style.display = 'flex';
+                    toolsList.style.display = 'none';
+                    skillsList.classList.add('active');
+                    toolsList.classList.remove('active');
+                    
+                    // Move toggle background to first button (Skills)
+                    this.moveToggleBackground(toggleBox, 0);
+                } else if (buttonText.includes('tools')) {
+                    // Show tools, hide skills
+                    skillsList.style.display = 'none';
+                    toolsList.style.display = 'flex';
+                    skillsList.classList.remove('active');
+                    toolsList.classList.add('active');
+                    
+                    // Move toggle background to second button (Tools)
+                    this.moveToggleBackground(toggleBox, 1);
+                }
             });
-            
-            // Add active class to clicked button
-            btn.classList.add('active');
-            
-            // Get button text to determine action
-            const buttonText = btn.textContent.toLowerCase().trim();
-            
-            // Toggle between skills and tools based on button text
-            if (buttonText.includes('skills')) {
-                // Show skills, hide tools
-                skillsList.style.display = 'flex';
-                toolsList.style.display = 'none';
-                skillsList.classList.add('active');
-                toolsList.classList.remove('active');
-                
-                // Move toggle background to first button (Skills)
-                this.moveToggleBackground(toggleBox, 0);
-            } else if (buttonText.includes('tools')) {
-                // Show tools, hide skills
-                skillsList.style.display = 'none';
-                toolsList.style.display = 'flex';
-                skillsList.classList.remove('active');
-                toolsList.classList.add('active');
-                
-                // Move toggle background to second button (Tools)
-                this.moveToggleBackground(toggleBox, 1);
-            }
         });
-    });
-}
-
-// Move the toggle background indicator
-moveToggleBackground(toggleBox, buttonIndex) {
-    const toggleBtns = toggleBox.querySelectorAll('[data-toggle-btn]');
-    if (toggleBtns.length === 0) return;
-    
-    const buttonWidth = toggleBtns[0].offsetWidth;
-    const translateX = buttonIndex * buttonWidth;
-    
-    // Create and apply style for the toggle background
-    const styleId = 'toggle-background-style';
-    let styleElement = document.getElementById(styleId);
-    
-    if (!styleElement) {
-        styleElement = document.createElement('style');
-        styleElement.id = styleId;
-        document.head.appendChild(styleElement);
     }
-    
-    styleElement.textContent = `
-        .skills-toggle::before {
-            transform: translateX(${translateX}px) !important;
-            width: ${buttonWidth}px !important;
-        }
-    `;
-}
 
-// Initialize default state for skills
-initializeDefaultSkillsState() {
-    const skillsList = document.querySelector('.skills-list');
-    const toolsList = document.querySelector('.tools-list');
-    const skillsBtn = document.querySelector('[data-toggle-btn]:first-child');
-    const toggleBox = document.querySelector('[data-toggle-box]');
-    
-    if (skillsList && toolsList && skillsBtn) {
-        // Set initial display states
-        skillsList.style.display = 'flex';
-        toolsList.style.display = 'none';
+    // Move the toggle background indicator
+    moveToggleBackground(toggleBox, buttonIndex) {
+        const toggleBtns = toggleBox.querySelectorAll('[data-toggle-btn]');
+        if (toggleBtns.length === 0) return;
         
-        // Set initial classes
-        skillsList.classList.add('active');
-        toolsList.classList.remove('active');
-        skillsBtn.classList.add('active');
+        const buttonWidth = toggleBtns[0].offsetWidth;
+        const translateX = buttonIndex * buttonWidth;
         
-        // Initialize toggle background position
-        if (toggleBox) {
-            this.moveToggleBackground(toggleBox, 0);
+        // Create and apply style for the toggle background
+        const styleId = 'toggle-background-style';
+        let styleElement = document.getElementById(styleId);
+        
+        if (!styleElement) {
+            styleElement = document.createElement('style');
+            styleElement.id = styleId;
+            document.head.appendChild(styleElement);
+        }
+        
+        styleElement.textContent = `
+            .skills-toggle::before {
+                transform: translateX(${translateX}px) !important;
+                width: ${buttonWidth}px !important;
+            }
+        `;
+    }
+
+    // Initialize default state for skills
+    initializeDefaultSkillsState() {
+        const skillsList = document.querySelector('.skills-list');
+        const toolsList = document.querySelector('.tools-list');
+        const skillsBtn = document.querySelector('[data-toggle-btn]:first-child');
+        const toggleBox = document.querySelector('[data-toggle-box]');
+        
+        if (skillsList && toolsList && skillsBtn) {
+            // Set initial display states
+            skillsList.style.display = 'flex';
+            toolsList.style.display = 'none';
+            
+            // Set initial classes
+            skillsList.classList.add('active');
+            toolsList.classList.remove('active');
+            skillsBtn.classList.add('active');
+            
+            // Initialize toggle background position
+            if (toggleBox) {
+                this.moveToggleBackground(toggleBox, 0);
+            }
         }
     }
-}
 
     // ===== TOOLTIP FUNCTIONALITY =====
     setupTooltips() {

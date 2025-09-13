@@ -616,7 +616,7 @@ class MobileNavigation {
     }
 
     setupMobileMenu() {
-        const navMenu = document.getElementById('myNavMenu');
+        const navMenu = document.getElementById('myNavMen');
         const menuBtn = document.querySelector('.nav-menu-btn');
         const menuIcon = document.querySelector('.nav-menu-btn i');
         const navLinks = document.querySelectorAll('.nav-link');
@@ -655,7 +655,7 @@ class MobileNavigation {
     }
 
     toggleMenu() {
-        const navMenu = document.getElementById('myNavMenu');
+        const navMenu = document.getElementById('myNavMen');
         const menuIcon = document.querySelector('.nav-menu-btn i');
         
         if (!navMenu || !menuIcon) return;
@@ -670,7 +670,7 @@ class MobileNavigation {
     }
 
     openMenu() {
-        const navMenu = document.getElementById('myNavMenu');
+        const navMenu = document.getElementById('myNavMen');
         const menuIcon = document.querySelector('.nav-menu-btn i');
         const menuBtn = document.querySelector('.nav-menu-btn');
         
@@ -684,7 +684,7 @@ class MobileNavigation {
     }
 
     closeMenu() {
-        const navMenu = document.getElementById('myNavMenu');
+        const navMenu = document.getElementById('myNavMen');
         const menuIcon = document.querySelector('.nav-menu-btn i');
         const menuBtn = document.querySelector('.nav-menu-btn');
         

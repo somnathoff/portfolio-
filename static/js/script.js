@@ -157,20 +157,20 @@ class PortfolioManager {
         const menuBtn = document.querySelector('.nav-menu-btn i');
         
         navMenu.classList.add('active');
-        menuBtn.classList.remove('uil-bars');
-        menuBtn.classList.add('uil-times');
+        // menuBtn.classList.remove('uil-bars');
+        // menuBtn.classList.add('uil-times');
         document.body.style.overflow = 'hidden';
     }
 
     closeMenu() {
         const navMenu = document.getElementById('myNavMenu');
-        const menuBtn = document.querySelector('.nav-menu-btn i');
+        // const menuBtn = document.querySelector('.nav-menu-btn i');
         
         if (navMenu) navMenu.classList.remove('active');
-        if (menuBtn) {
-            menuBtn.classList.remove('uil-times');
-            menuBtn.classList.add('uil-bars');
-        }
+        // if (menuBtn) {
+        //     menuBtn.classList.remove('uil-times');
+        //     menuBtn.classList.add('uil-bars');
+        // }
         document.body.style.overflow = '';
     }
 
@@ -197,6 +197,33 @@ class PortfolioManager {
                 }
                 
                 this.closeMenu();
+            });
+        });
+    }
+
+    setupScrollSpy() {
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const scrollY = window.pageYOffset;
+
+            sections.forEach(section => {
+                const sectionHeight = section.offsetHeight;
+                const sectionTop = section.offsetTop - 100;
+                const sectionId = section.getAttribute('id');
+
+                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                    current = sectionId;
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active-link');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active-link');
+                }
             });
         });
     }

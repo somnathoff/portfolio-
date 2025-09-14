@@ -81,7 +81,7 @@ body {
 nav {
   position: fixed;
   display: flex;
-  justify-content: flex-start; /* Changed from center to flex-start */
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
   height: 80px;
@@ -100,7 +100,7 @@ nav {
   align-items: center;
   position: relative;
   z-index: 1001;
-  /* Removed position absolute and centering styles */
+  text-decoration: none;
 }
 
 .nav-name {

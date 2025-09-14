@@ -88,6 +88,7 @@ nav {
   line-height: 80px;
   background: rgba(10, 10, 10, 0.95);
   backdrop-filter: blur(15px);
+  padding: 0 6vw;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   z-index: 1000;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -1664,6 +1665,10 @@ footer::before {
     padding-inline: 4vw;
   }
   
+  nav {
+    padding-inline: 4vw;
+  }
+  
   .featured-text {
     padding: 0 20px;
   }
@@ -1995,6 +2000,7 @@ footer::before {
   nav {
     height: 70px;
     line-height: 70px;
+    padding-inline: 20px;
   }
   
   .nav-name {
@@ -2270,6 +2276,10 @@ footer::before {
     padding-inline: 15px;
   }
 
+  nav {
+    padding-inline: 15px;
+  }
+
   .nav-name {
     font-size: 20px;
   }
@@ -2457,6 +2467,7 @@ footer::before {
 
 /* Accessibility improvements */
 @media only screen and (max-width: 900px) {
+  .btn,
   .icon {
     min-height: 44px;
     min-width: 44px;

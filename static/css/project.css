@@ -92,23 +92,25 @@ body {
   padding-top: 100px; /* Account for fixed header */
 }
 
-/* ===== NAVIGATION ===== */
+/* ===== NAVIGATION - FIXED ===== */
 nav {
   position: fixed;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 80px;
   line-height: 80px;
   background: rgba(10, 10, 10, 0.95);
   backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   padding: 0 6vw;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: var(--transition);
   z-index: 1000;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   top: 0;
 }
+
 /* Backdrop filter with fallback */
 @supports (backdrop-filter: blur(15px)) {
   nav {
@@ -117,6 +119,7 @@ nav {
     -webkit-backdrop-filter: blur(15px);
   }
 }
+
 .nav-logo {
   display: flex;
   align-items: center;
@@ -135,26 +138,31 @@ nav {
   margin: 0;
   text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
 }
+
 .nav-logo span {
   font-size: 2.2em;
   color: var(--first-color);
   margin-left: 5px;
-  animation: pulse 2s ease-in-out infinite;
 }
+
 /* Animate only if motion is not reduced */
 @media (prefers-reduced-motion: no-preference) {
   .nav-logo span {
     animation: pulse 2s ease-in-out infinite;
   }
 }
+
 @keyframes pulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.1); }
 }
+
 .nav-menu {
   display: flex;
   transition: var(--transition);
+  z-index: 999;
 }
+
 .nav_menu_list {
   display: flex;
   margin: 0;
@@ -162,10 +170,12 @@ nav {
   gap: 5px;
   list-style: none;
 }
+
 .nav_list {
   list-style: none;
   position: relative;
 }
+
 .nav-link {
   text-decoration: none;
   color: var(--text-color-second);
@@ -178,6 +188,7 @@ nav {
   overflow: hidden;
   display: inline-block;
 }
+
 .nav-link::before {
   content: '';
   position: absolute;
@@ -190,6 +201,7 @@ nav {
   border-radius: 2px;
   transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
+
 .nav-link::after {
   content: '';
   position: absolute;
@@ -202,15 +214,18 @@ nav {
   border-radius: 25px;
   z-index: -1;
 }
+
 .nav-link:hover::after,
 .nav-link:focus::after {
   left: 0;
 }
+
 .nav-link:hover::before,
 .nav-link:focus::before,
 .active-link::before {
   width: 60%;
 }
+
 .nav-menu-btn {
   display: none;
   z-index: 1001;
@@ -218,23 +233,34 @@ nav {
   padding: 8px;
   border-radius: 8px;
   transition: var(--transition);
+  background: transparent;
+  border: none;
 }
+
+.nav-menu-btn:focus {
+  outline: 2px solid var(--first-color);
+  outline-offset: 2px;
+}
+
 .nav-menu-btn i {
   font-size: 26px;
   color: var(--text-color);
   transition: var(--transition);
   display: block;
 }
+
 .active-link {
   color: var(--first-color);
   background: rgba(0, 212, 255, 0.1);
 }
+
 .nav-link:hover,
 .nav-link:focus {
   color: var(--first-color);
   transform: translateY(-2px);
   outline: none;
 }
+
 /* Header Text Styles */
 .header-text {
   text-align: center;
@@ -272,7 +298,7 @@ nav {
   font-style: italic;
 }
 
-/* Search Container - FIXED */
+/* Search Container */
 .search-container {
   margin-bottom: 2.5rem;
   display: flex;
@@ -330,12 +356,11 @@ nav {
   font-weight: 400;
 }
 
-/* Fixed search icon focus state */
 .search-form:focus-within .search-icon {
   color: var(--first-color);
 }
 
-/* Projects Grid - Fixed with flexbox fallback */
+/* Projects Grid */
 .projects-grid {
   display: flex;
   flex-wrap: wrap;
@@ -621,11 +646,6 @@ nav {
   }
 }
 
-.tech-tag:hover::before,
-.tech-tag:focus::before {
-  left: 0;
-}
-
 .tech-tag:hover,
 .tech-tag:focus {
   color: var(--color-white);
@@ -635,7 +655,7 @@ nav {
   outline: none;
 }
 
-/* Project Links - FIXED TO HORIZONTAL LAYOUT */
+/* Project Links */
 .project-links {
   display: flex;
   flex-direction: row;
@@ -903,7 +923,7 @@ footer::before {
   outline: none;
 }
 
-/* Mobile Navigation */
+/* ===== MOBILE NAVIGATION - FIXED ===== */
 @media only screen and (max-width: 900px) {
   .nav-menu-btn {
     display: flex;
@@ -922,7 +942,7 @@ footer::before {
     width: 100%;
     height: calc(100vh - 80px);
     transition: left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    z-index: 999;
+    z-index: 998;
     padding-top: 60px;
     overflow-y: auto;
   }

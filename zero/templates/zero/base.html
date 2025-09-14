@@ -23,7 +23,19 @@
                 <p class="nav-name">SOMNATH</p>
                 <span>.</span>
             </div>
-            
+            <div class="nav-menu" id="myNavMenu">
+                <ul class="nav_menu_list">
+                    <li class="nav_list">
+                        <a href="#home" class="nav-link active-link">Home</a>
+                    </li>
+                    <li class="nav_list">
+                        <a href="{% url 'project' %}" class="nav-link">Projects</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-menu-btn" onclick="toggleMenu()">
+                <i class="uil uil-bars"></i>
+            </div>
         </nav>
         
         <!-- -------------- MAIN ---------------- -->

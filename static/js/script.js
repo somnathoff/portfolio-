@@ -37,26 +37,31 @@ class PortfolioManager {
 
     // ===== TYPING ANIMATION =====
     setupTypingAnimation() {
-        const typedElement = document.querySelector('.typedText');
-        if (!typedElement) return;
+    const typedElement = document.querySelector('.featured .typedText'); 
+    if (!typedElement) return;
 
-        // Check if Typed.js is available
-        if (typeof Typed !== 'undefined') {
-            new Typed('.typedText', {
-                strings: ['SOMNATH', 'Problem Solver', 'Full Stack Developer', 'Machine Learning Engineer', 'Data Scientist'],
-                loop: true,
-                typeSpeed: 100,
-                backSpeed: 80,
-                backDelay: 2000,
-                showCursor: true,
-                cursorChar: '|',
-                autoInsertCss: true,
-            });
-        } else {
-            // Fallback typing animation
-            this.setupFallbackTyping(typedElement);
-        }
+    // Check if Typed.js is available
+    if (typeof Typed !== 'undefined') {
+        new Typed('.featured .typedText', {
+            strings: [
+                'SOMNATH',
+                'Problem Solver',
+                'Full Stack Developer',
+                'Machine Learning Engineer',
+                'Data Scientist'
+            ],
+            loop: true,
+            typeSpeed: 100,
+            backSpeed: 80,
+            backDelay: 2000,
+            showCursor: true,
+            cursorChar: '|',
+            autoInsertCss: true,
+        });
+    } else {
+        this.setupFallbackTyping(typedElement);
     }
+}
 
     setupFallbackTyping(element) {
         const texts = ['SOMNATH', 'Problem Solver', 'Full Stack Developer', 'Machine Learning Engineer', 'Data Scientist'];

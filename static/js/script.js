@@ -37,89 +37,63 @@ class PortfolioManager {
 
     // ===== TYPING ANIMATION =====
     setupTypingAnimation() {
-    // Use a unique id to avoid collisions with nav or other elements
-    const typedElement = document.getElementById('typed-hero');
-    if (!typedElement) return;
+        const typedElement = document.querySelector('.typedText');
+        if (!typedElement) return;
 
-    const strings = [
-        'SOMNATH',
-        'Problem Solver',
-        'Full Stack Developer',
-        'Machine Learning Engineer',
-        'Data Scientist'
-    ];
-
-    // If Typed.js is available, pass the element node (safer than a selector string)
-    if (typeof Typed !== 'undefined') {
-        try {
-            // Pass the DOM element directly (Typed.js accepts either selector or element)
-            new Typed(typedElement, {
-                strings: strings,
+        // Check if Typed.js is available
+        if (typeof Typed !== 'undefined') {
+            new Typed('.typedText', {
+                strings: ['SOMNATH', 'Problem Solver', 'Full Stack Developer', 'Machine Learning Engineer', 'Data Scientist'],
                 loop: true,
                 typeSpeed: 100,
                 backSpeed: 80,
                 backDelay: 2000,
                 showCursor: true,
                 cursorChar: '|',
-                autoInsertCss: true
+                autoInsertCss: true,
             });
-        } catch (err) {
-            // If Typed.js fails for any reason, fallback to safe JS typing
-            console.warn('Typed.js init failed, using fallback:', err);
-            this.setupFallbackTyping(typedElement, strings);
-        }
-    } else {
-        // No Typed.js -> use fallback
-        this.setupFallbackTyping(typedElement, strings);
-    }
-}
-
-    setupFallbackTyping(element, texts = [
-    'SOMNATH',
-    'Problem Solver',
-    'Full Stack Developer',
-    'Machine Learning Engineer',
-    'Data Scientist'
-]) {
-    let textIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-
-    const typeSpeed = 100;
-    const deleteSpeed = 50;
-    const pauseTime = 2000;
-
-    function tick() {
-        const currentText = texts[textIndex] || '';
-        // Update charIndex safely
-        if (isDeleting) {
-            charIndex = Math.max(charIndex - 1, 0);
         } else {
-            charIndex = Math.min(charIndex + 1, currentText.length);
+            // Fallback typing animation
+            this.setupFallbackTyping(typedElement);
         }
-
-        // Set the visible text
-        element.textContent = currentText.substring(0, charIndex);
-
-        // Decide next timeout
-        let timeout = isDeleting ? deleteSpeed : typeSpeed;
-
-        if (!isDeleting && charIndex === currentText.length) {
-            // finished typing, pause then delete
-            isDeleting = true;
-            timeout = pauseTime;
-        } else if (isDeleting && charIndex === 0) {
-            // finished deleting, move to next
-            isDeleting = false;
-            textIndex = (textIndex + 1) % texts.length;
-            timeout = typeSpeed;
-        }
-
-        setTimeout(tick, timeout);
     }
 
-    tick();
-}
+    setupFallbackTyping(element) {
+        const texts = ['SOMNATH', 'Problem Solver', 'Full Stack Developer', 'Machine Learning Engineer', 'Data Scientist'];
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        
+        const typeSpeed = 100;
+        const deleteSpeed = 50;
+        const pauseTime = 2000;
+
+        function type() {
+            const currentText = texts[textIndex];
+            
+            if (isDeleting) {
+                element.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                element.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeedCurrent = isDeleting ? deleteSpeed : typeSpeed;
+
+            if (!isDeleting && charIndex === currentText.length) {
+                typeSpeedCurrent = pauseTime;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+            }
+
+            setTimeout(type, typeSpeedCurrent);
+        }
+        
+        type();
+    }
 
     // ===== NAVIGATION =====
     setupNavigation() {

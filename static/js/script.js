@@ -35,7 +35,7 @@ class PortfolioManager {
         });
     }
 
-    // ===== NAVIGATION (MOVED TO FIRST) =====
+    // ===== NAVIGATION =====
     setupNavigation() {
         this.setupMobileMenu();
         this.setupSmoothScrolling();
@@ -50,16 +50,10 @@ class PortfolioManager {
 
         if (!navMenu || !menuBtn || !menuIcon) return;
 
-        // Prevent any interference with the menu button
-        menuBtn.style.pointerEvents = 'auto';
-        menuBtn.style.zIndex = '10001';
-        menuBtn.style.position = 'relative';
-
-        // Add click event to menu button (using both click and touchstart for better mobile support)
+        // Add click event to menu button
         const toggleMenu = (e) => {
             e.preventDefault();
             e.stopPropagation();
-            e.stopImmediatePropagation();
             
             if (navMenu.classList.contains('active')) {
                 this.closeMenu();
@@ -68,8 +62,7 @@ class PortfolioManager {
             }
         };
 
-        menuBtn.addEventListener('click', toggleMenu, { passive: false });
-        menuBtn.addEventListener('touchstart', toggleMenu, { passive: false });
+        menuBtn.addEventListener('click', toggleMenu);
 
         // Close menu on link click
         navLinks.forEach(link => {
@@ -85,7 +78,7 @@ class PortfolioManager {
             }
         });
 
-        // Close menu when clicking outside (but not on the menu button)
+        // Close menu when clicking outside
         document.addEventListener('click', (event) => {
             if (navMenu && 
                 !navMenu.contains(event.target) && 
@@ -105,13 +98,6 @@ class PortfolioManager {
             menuIcon.classList.remove('uil-bars');
             menuIcon.classList.add('uil-times');
             document.body.style.overflow = 'hidden';
-            
-            // Ensure menu button stays clickable
-            const menuBtn = document.querySelector('.nav-menu-btn');
-            if (menuBtn) {
-                menuBtn.style.zIndex = '10001';
-                menuBtn.style.pointerEvents = 'auto';
-            }
         }
     }
 
@@ -181,15 +167,17 @@ class PortfolioManager {
         });
     }
 
-    // ===== TYPING ANIMATION =====
+    // ===== TYPING ANIMATION - FIXED =====
     setupTypingAnimation() {
         const typedElement = document.querySelector('.typedText');
         if (!typedElement) return;
 
-        // Ensure typing animation doesn't interfere with navigation
-        typedElement.style.pointerEvents = 'none';
-        typedElement.style.userSelect = 'none';
-        typedElement.style.touchAction = 'none';
+        // Set a fixed width container to prevent layout shifts
+        const parentElement = typedElement.parentElement;
+        if (parentElement) {
+            parentElement.style.display = 'inline-block';
+            parentElement.style.minWidth = '300px'; // Adjust based on your longest text
+        }
 
         // Check if Typed.js is available
         if (typeof Typed !== 'undefined') {
@@ -202,9 +190,16 @@ class PortfolioManager {
                 showCursor: true,
                 cursorChar: '|',
                 autoInsertCss: true,
+                // Add these options to prevent layout shifts
+                preStringTyped: () => {
+                    // Keep container width stable
+                    if (parentElement) {
+                        parentElement.style.width = parentElement.offsetWidth + 'px';
+                    }
+                }
             });
         } else {
-            // Fallback typing animation
+            // Fallback typing animation with fixed width
             this.setupFallbackTyping(typedElement);
         }
     }
@@ -218,6 +213,22 @@ class PortfolioManager {
         const typeSpeed = 100;
         const deleteSpeed = 50;
         const pauseTime = 2000;
+
+        // Set initial width to prevent layout shifts
+        const parentElement = element.parentElement;
+        if (parentElement) {
+            // Calculate the width needed for the longest text
+            const longestText = texts.reduce((a, b) => a.length > b.length ? a : b);
+            const tempElement = element.cloneNode(true);
+            tempElement.style.visibility = 'hidden';
+            tempElement.style.position = 'absolute';
+            tempElement.textContent = longestText;
+            document.body.appendChild(tempElement);
+            const maxWidth = tempElement.offsetWidth;
+            document.body.removeChild(tempElement);
+            
+            parentElement.style.minWidth = maxWidth + 'px';
+        }
 
         function type() {
             const currentText = texts[textIndex];
@@ -665,7 +676,12 @@ class PortfolioManager {
 // Function for mobile menu toggle (for onclick handler)
 function myMenuFunction() {
     if (window.portfolioManager && window.portfolioManager.isInitialized) {
-        window.portfolioManager.toggleMenu();
+        const navMenu = document.getElementById('myNavMenu');
+        if (navMenu && navMenu.classList.contains('active')) {
+            window.portfolioManager.closeMenu();
+        } else {
+            window.portfolioManager.openMenu();
+        }
     }
 }
 

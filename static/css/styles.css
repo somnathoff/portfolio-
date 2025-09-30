@@ -321,7 +321,7 @@ nav {
 }
 
 /* Optional: Style the name with blue color */
-.featured-name p {
+.featured-name p .typedText {
   color: var(--color-blue);
 }
 

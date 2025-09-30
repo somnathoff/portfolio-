@@ -702,3 +702,27 @@ window.addEventListener('scroll', () => {
         }
     }
 });
+
+// Mobile Navigation Toggle
+const navToggle = document.getElementById('navToggle');
+const navMenu = document.getElementById('navMenu');
+
+if (navToggle) {
+    navToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('show');
+        const icon = navToggle.querySelector('i');
+        icon.classList.toggle('uil-bars');
+        icon.classList.toggle('uil-times');
+    });
+}
+
+// Close mobile menu when clicking on a link
+const navLinks = document.querySelectorAll('.nav-link');
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        navMenu.classList.remove('show');
+        const icon = navToggle.querySelector('i');
+        icon.classList.add('uil-bars');
+        icon.classList.remove('uil-times');
+    });
+});

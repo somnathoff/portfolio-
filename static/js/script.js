@@ -43,7 +43,7 @@ class PortfolioManager {
             return;
         }
 
-        const texts = ['SOMNATH', 'SOMU'];
+        const texts = ['SOMNATH', 'Problem Solver', 'Full Stack Developer', 'Machine Learning Engineer', 'Data Scientist'];
         let textIndex = 0;
         let isAnimating = false;
         

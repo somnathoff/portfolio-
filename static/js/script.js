@@ -528,7 +528,7 @@ class PortfolioManager {
 const portfolioManager = new PortfolioManager();
 
 
-
+//---------------------------------------------------------------------------------//
 // Name variations to cycle through
 const nameVariations = ["SOMNATH","SOMU"];
 

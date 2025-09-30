@@ -526,3 +526,31 @@ class PortfolioManager {
 
 // Initialize the portfolio manager when the script loads
 const portfolioManager = new PortfolioManager();
+
+
+
+// Name variations to cycle through
+const nameVariations = ["SOMNATH", "SOMU", "SOM", "NATH", "SOMU3103"];
+
+// Function to create animated name
+function createAnimatedName(name) {
+    const nameContainer = document.getElementById('animatedName');
+    nameContainer.innerHTML = '';
+    
+    // Create span for each letter
+    for (let i = 0; i < name.length; i++) {
+        const span = document.createElement('span');
+        span.textContent = name[i];
+        nameContainer.appendChild(span);
+    }
+}
+
+// Initialize with first name
+createAnimatedName(nameVariations[0]);
+
+// Cycle through names every 4 seconds
+let currentIndex = 0;
+setInterval(() => {
+    currentIndex = (currentIndex + 1) % nameVariations.length;
+    createAnimatedName(nameVariations[currentIndex]);
+}, 4000);

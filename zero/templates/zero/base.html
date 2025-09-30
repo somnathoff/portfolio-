@@ -23,6 +23,20 @@
                 <span>.</span>
             </a>
         </nav>
+        <div class="nav-menu" id="myNavMenu">
+                <ul class="nav_menu_list">
+                    <li class="nav_list">
+                        <a href="{% url 'base' %}" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav_list">
+                        <a href="{% url 'project' %}" class="nav-link active-link">Projects</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-menu-btn" role="button" aria-label="Toggle navigation menu" aria-expanded="false" tabindex="0">
+                <i class="uil uil-bars"></i>
+            </div>
+        </nav>
         
         <!-- -------------- MAIN ---------------- -->
         <main class="wrapper">

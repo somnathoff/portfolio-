@@ -322,7 +322,7 @@ nav {
 
 /* Optional: Style the name with blue color */
 .featured-name p {
-  color: var(--color-white);
+  color: var(--color-blue);
 }
 
 .featured-text-info {

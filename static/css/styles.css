@@ -1873,76 +1873,64 @@ footer::before {
   
   .nav-menu {
     position: fixed;
-    top: 80px;
+    top: 0;
     left: -100%;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    background: rgba(10, 10, 10, 0.98);
     width: 100%;
-    height: calc(100vh - 80px);
-    transition: left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    z-index: 998;
-    padding-top: 60px;
-    overflow-y: auto;
+    height: 100vh;
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 999;
   }
-  
-  /* Backdrop filter with fallback */
-  @supports (backdrop-filter: blur(25px)) {
-    .nav-menu {
-      background: rgba(10, 10, 10, 0.98);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-    }
-  }
-  
+
   .nav-menu.active {
     left: 0;
   }
-  
-  /* FIXED: Menu items positioned VERTICALLY in center */
+
+  /* VERTICAL CENTERED MENU */
   .nav_menu_list {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
     gap: 30px;
+    text-align: center;
+    width: 100%;
     padding: 0;
     margin: 0;
   }
 
   .nav_list {
     width: 100%;
-    text-align: center;
   }
 
   .nav-link {
     font-size: 22px;
     padding: 15px 40px;
-    display: inline-block;
-    text-align: center;
-    border-radius: 25px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
+    display: block;
     margin: 0 auto;
+    width: fit-content;
+    border-radius: 30px;
+    transition: var(--transition);
+    color: var(--text-color-second);
+    text-decoration: none;
+    font-weight: 500;
   }
 
   .nav-link:hover,
   .nav-link:focus {
-    background: rgba(0, 212, 255, 0.1);
-    border-color: var(--first-color);
+    color: var(--first-color);
     transform: translateY(-2px);
   }
 
   .active-link {
-    background: rgba(0, 212, 255, 0.15);
-    border-color: var(--first-color);
     color: var(--first-color);
+    background: rgba(0, 212, 255, 0.1);
   }
 
-  /* Rest of your mobile styles remain the same */
+  /* Rest of your mobile styles */
   .featured-box {
     flex-direction: column;
     justify-content: center;
@@ -2219,12 +2207,6 @@ footer::before {
   
   .nav-name {
     font-size: 22px;
-  }
-  
-  .nav-menu {
-    top: 70px;
-    height: calc(100vh - 70px);
-    padding-top: 40px;
   }
   
   .nav-link {

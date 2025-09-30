@@ -11,7 +11,7 @@ class PortfolioManager {
         
         try {
             await this.waitForDOM();
-            this.setupFadeAnimation(); // FIXED: Changed from setupTypingAnimation()
+            this.setupFadeAnimation();
             this.setupNavigation();
             this.setupSkillsToggle();
             this.setupTooltips();
@@ -35,7 +35,7 @@ class PortfolioManager {
         });
     }
 
-    // ===== Fade In Letter by Letter =====
+    // ===== Fade In Letter by Letter - FIXED =====
     setupFadeAnimation() {
         const element = document.querySelector('.typedText');
         if (!element) {
@@ -45,73 +45,112 @@ class PortfolioManager {
 
         const texts = ['SOMNATH', 'SOMU'];
         let textIndex = 0;
+        let isAnimating = false;
         
-        // Add CSS for fade animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes fadeIn {
-                from { 
-                    opacity: 0; 
-                    transform: translateY(20px); 
+        // Add CSS for fade animation - CRITICAL for visibility
+        const styleId = 'fade-animation-style';
+        if (!document.getElementById(styleId)) {
+            const style = document.createElement('style');
+            style.id = styleId;
+            style.textContent = `
+                @keyframes letterFadeIn {
+                    0% { 
+                        opacity: 0; 
+                        transform: translateY(30px) scale(0.8); 
+                    }
+                    100% { 
+                        opacity: 1; 
+                        transform: translateY(0) scale(1); 
+                    }
                 }
-                to { 
-                    opacity: 1; 
-                    transform: translateY(0); 
+                
+                @keyframes letterFadeOut {
+                    0% { 
+                        opacity: 1; 
+                        transform: translateY(0) scale(1); 
+                    }
+                    100% { 
+                        opacity: 0; 
+                        transform: translateY(-20px) scale(0.9); 
+                    }
                 }
-            }
-            .typedText {
-                min-height: 1.2em;
-                display: inline-block;
-            }
-            .typedText span {
-                display: inline-block;
-                opacity: 0;
-            }
-        `;
-        document.head.appendChild(style);
+                
+                .typedText {
+                    min-height: 1.5em;
+                    display: inline-block;
+                    white-space: nowrap;
+                }
+                
+                .typedText .letter {
+                    display: inline-block;
+                    opacity: 0;
+                }
+                
+                .typedText .letter.fade-in {
+                    animation: letterFadeIn 0.6s ease-out forwards;
+                }
+                
+                .typedText .letter.fade-out {
+                    animation: letterFadeOut 0.4s ease-in forwards;
+                }
+            `;
+            document.head.appendChild(style);
+        }
         
-        const fadeIn = () => {
+        const animateText = () => {
+            if (isAnimating) return;
+            isAnimating = true;
+            
             const text = texts[textIndex];
             element.innerHTML = '';
             
-            // Create spans for each character
-            text.split('').forEach((char, i) => {
+            // Create letter spans
+            const letters = text.split('').map((char, i) => {
                 const span = document.createElement('span');
+                span.className = 'letter';
                 span.textContent = char;
-                span.style.opacity = '0';
-                span.style.display = 'inline-block';
-                span.style.animation = `fadeIn 0.8s ease-out ${i * 0.15}s forwards`;
-                element.appendChild(span);
+                span.style.animationDelay = `${i * 0.1}s`;
+                return span;
             });
             
-            // Calculate total animation duration
-            const animationDuration = (text.length * 0.15 + 0.8) * 1000;
+            // Add all letters to DOM
+            letters.forEach(letter => element.appendChild(letter));
             
-            // Wait for animation to complete, then wait 2 seconds before next text
+            // Trigger fade-in animation with a small delay to ensure CSS is applied
             setTimeout(() => {
-                // Keep text visible for 2 more seconds
+                letters.forEach(letter => letter.classList.add('fade-in'));
+            }, 50);
+            
+            // Calculate when animation completes
+            const fadeInDuration = (letters.length * 0.1 + 0.6) * 1000;
+            const displayTime = 2500; // Show text for 2.5 seconds
+            
+            // After fade-in completes + display time, start fade-out
+            setTimeout(() => {
+                // Fade out
+                letters.forEach((letter, i) => {
+                    letter.classList.remove('fade-in');
+                    letter.style.animationDelay = `${i * 0.05}s`;
+                    letter.classList.add('fade-out');
+                });
+                
+                // After fade-out, start next text
+                const fadeOutDuration = (letters.length * 0.05 + 0.4) * 1000;
                 setTimeout(() => {
-                    // Fade out current text
-                    const spans = element.querySelectorAll('span');
-                    spans.forEach((span, i) => {
-                        setTimeout(() => {
-                            span.style.transition = 'opacity 0.3s ease-out';
-                            span.style.opacity = '0';
-                        }, i * 30);
-                    });
-                    
-                    // Start next text after fade out
-                    setTimeout(() => {
-                        textIndex = (textIndex + 1) % texts.length;
-                        fadeIn();
-                    }, spans.length * 30 + 300);
-                }, 2000);
-            }, animationDuration);
+                    textIndex = (textIndex + 1) % texts.length;
+                    isAnimating = false;
+                    animateText();
+                }, fadeOutDuration);
+                
+            }, fadeInDuration + displayTime);
         };
         
-        // Start the animation
-        fadeIn();
+        // Start animation after a short delay
+        setTimeout(() => {
+            animateText();
+        }, 500);
     }
+
     // ===== NAVIGATION =====
     setupNavigation() {
         this.setupMobileMenu();
@@ -245,7 +284,7 @@ class PortfolioManager {
         });
     }
 
-    // ===== SKILLS TOGGLE FUNCTIONALITY - FIXED =====
+    // ===== SKILLS TOGGLE FUNCTIONALITY =====
     setupSkillsToggle() {
         const toggleBtns = document.querySelectorAll('[data-toggle-btn]');
         const skillsList = document.querySelector('.skills-list');
@@ -257,50 +296,39 @@ class PortfolioManager {
             return;
         }
 
-        // Initialize default state
         this.initializeDefaultSkillsState();
 
-        // Add click event to each toggle button
         toggleBtns.forEach((btn, index) => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 
-                // Remove active class from all buttons
                 toggleBtns.forEach(toggleBtn => {
                     toggleBtn.classList.remove('active');
                 });
                 
-                // Add active class to clicked button
                 btn.classList.add('active');
                 
-                // Get button text to determine action
                 const buttonText = btn.textContent.toLowerCase().trim();
                 
-                // Toggle between skills and tools based on button text
                 if (buttonText.includes('skills')) {
-                    // Show skills, hide tools
                     skillsList.style.display = 'flex';
                     toolsList.style.display = 'none';
                     skillsList.classList.add('active');
                     toolsList.classList.remove('active');
                     
-                    // Move toggle background to first button (Skills)
                     this.moveToggleBackground(toggleBox, 0);
                 } else if (buttonText.includes('tools')) {
-                    // Show tools, hide skills
                     skillsList.style.display = 'none';
                     toolsList.style.display = 'flex';
                     skillsList.classList.remove('active');
                     toolsList.classList.add('active');
                     
-                    // Move toggle background to second button (Tools)
                     this.moveToggleBackground(toggleBox, 1);
                 }
             });
         });
     }
 
-    // Move the toggle background indicator
     moveToggleBackground(toggleBox, buttonIndex) {
         const toggleBtns = toggleBox.querySelectorAll('[data-toggle-btn]');
         if (toggleBtns.length === 0) return;
@@ -308,7 +336,6 @@ class PortfolioManager {
         const buttonWidth = toggleBtns[0].offsetWidth;
         const translateX = buttonIndex * buttonWidth;
         
-        // Create and apply style for the toggle background
         const styleId = 'toggle-background-style';
         let styleElement = document.getElementById(styleId);
         
@@ -326,7 +353,6 @@ class PortfolioManager {
         `;
     }
 
-    // Initialize default state for skills
     initializeDefaultSkillsState() {
         const skillsList = document.querySelector('.skills-list');
         const toolsList = document.querySelector('.tools-list');
@@ -334,16 +360,13 @@ class PortfolioManager {
         const toggleBox = document.querySelector('[data-toggle-box]');
         
         if (skillsList && toolsList && skillsBtn) {
-            // Set initial display states
             skillsList.style.display = 'flex';
             toolsList.style.display = 'none';
             
-            // Set initial classes
             skillsList.classList.add('active');
             toolsList.classList.remove('active');
             skillsBtn.classList.add('active');
             
-            // Initialize toggle background position
             if (toggleBox) {
                 this.moveToggleBackground(toggleBox, 0);
             }
@@ -354,7 +377,6 @@ class PortfolioManager {
     setupTooltips() {
         const skillsCards = document.querySelectorAll('.skills-card');
         
-        // Detect if device supports touch
         const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         
         skillsCards.forEach((card) => {
@@ -363,30 +385,24 @@ class PortfolioManager {
             if (!tooltip) return;
             
             if (isTouchDevice) {
-                // Mobile/Touch devices - use click
                 card.addEventListener('click', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
                     
-                    // Close all other tooltips
                     skillsCards.forEach(otherCard => {
                         if (otherCard !== card) {
                             otherCard.classList.remove('tooltip-active');
                         }
                     });
                     
-                    // Toggle current tooltip
                     card.classList.toggle('tooltip-active');
                 });
             } else {
-                // Desktop - use hover
                 card.addEventListener('mouseenter', () => {
-                    // Close all other tooltips first
                     skillsCards.forEach(otherCard => {
                         otherCard.classList.remove('tooltip-active');
                     });
                     
-                    // Show current tooltip
                     card.classList.add('tooltip-active');
                 });
                 
@@ -396,7 +412,6 @@ class PortfolioManager {
             }
         });
         
-        // Close all tooltips when clicking outside (for mobile)
         if (isTouchDevice) {
             document.addEventListener('click', (e) => {
                 if (!e.target.closest('.skills-card')) {
@@ -407,7 +422,6 @@ class PortfolioManager {
             });
         }
         
-        // Close tooltips on escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 skillsCards.forEach(card => {
@@ -424,26 +438,19 @@ class PortfolioManager {
         if (!downloadBtn) return;
         
         downloadBtn.addEventListener('click', (e) => {
-            // Prevent immediate navigation to allow animation to play
             e.preventDefault();
             
-            // Add downloading class for animation
             downloadBtn.classList.add('downloading');
             
-            // Store the original href
             const originalHref = downloadBtn.href;
             
-            // Simulate download process with a short delay
             setTimeout(() => {
-                // Remove downloading class and add success class
                 downloadBtn.classList.remove('downloading');
                 downloadBtn.classList.add('success');
                 
-                // Actually trigger the download after animation
                 setTimeout(() => {
                     window.location.href = originalHref;
                     
-                    // Reset button after a delay
                     setTimeout(() => {
                         downloadBtn.classList.remove('success');
                     }, 2000);
@@ -454,7 +461,6 @@ class PortfolioManager {
 
     // ===== SCROLL REVEAL ANIMATION =====
     setupScrollReveal() {
-        // Check if ScrollReveal is available
         if (typeof ScrollReveal !== 'undefined') {
             const sr = ScrollReveal({
                 origin: 'top',
@@ -463,7 +469,6 @@ class PortfolioManager {
                 reset: true
             });
 
-            // Hero Section
             sr.reveal('.featured-text-card', {});
             sr.reveal('.featured-name', { delay: 100 });
             sr.reveal('.featured-text-info', { delay: 200 });
@@ -471,21 +476,16 @@ class PortfolioManager {
             sr.reveal('.social_icons', { delay: 200 });
             sr.reveal('.featured-image', { delay: 300 });
 
-            // About Section
             sr.reveal('.about-img', {});
             sr.reveal('.about-info', { delay: 200 });
 
-            // Skills Section
             sr.reveal('.skills-content', {});
             sr.reveal('.skills-box', { delay: 200 });
 
-            // Timeline Section
             sr.reveal('.timeline-item', { interval: 200 });
 
-            // Cards Section
             sr.reveal('.cards_item', { interval: 200 });
 
-            // Contact Section
             sr.reveal('.contact-info', {});
             sr.reveal('.form-control', { delay: 200 });
         }
@@ -498,7 +498,7 @@ class PortfolioManager {
         const nextBtn = document.getElementById('nextBtn');
         const dotsContainer = document.getElementById('sliderDots');
         
-        if (!track) return; // Exit if no certifications
+        if (!track) return;
         
         const slides = track.querySelectorAll('.certification-slide');
         const totalSlides = slides.length;
@@ -507,9 +507,8 @@ class PortfolioManager {
         
         let currentSlide = 0;
         let autoSlideInterval;
-        const autoSlideDelay = 2500; // 2.5 seconds between slides
+        const autoSlideDelay = 2500;
         
-        // Create dots - one for each slide
         const createDots = () => {
             dotsContainer.innerHTML = '';
             
@@ -522,65 +521,54 @@ class PortfolioManager {
             }
         };
         
-        // Update slider position
         const updateSlider = () => {
-            // For single slide display, we just need to move to the correct slide
-            const translateX = -(currentSlide * 100); // 100% per slide
+            const translateX = -(currentSlide * 100);
             track.style.transform = `translateX(${translateX}%)`;
             
-            // Update dots
             const dots = dotsContainer.querySelectorAll('.dot');
             dots.forEach((dot, index) => {
                 dot.classList.toggle('active', index === currentSlide);
             });
             
-            // Update button states
             prevBtn.disabled = currentSlide <= 0;
             nextBtn.disabled = currentSlide >= totalSlides - 1;
         };
         
-        // Go to specific slide
         const goToSlide = (index) => {
             currentSlide = Math.max(0, Math.min(index, totalSlides - 1));
             updateSlider();
-            resetAutoSlide(); // Reset the timer when manually navigating
+            resetAutoSlide();
         };
         
-        // Previous slide
         const prevSlide = () => {
             if (currentSlide > 0) {
                 currentSlide--;
                 updateSlider();
-                resetAutoSlide(); // Reset the timer when manually navigating
+                resetAutoSlide();
             }
         };
         
-        // Next slide
         const nextSlide = () => {
             if (currentSlide < totalSlides - 1) {
                 currentSlide++;
             } else {
-                // If we're at the last slide, loop back to the first
                 currentSlide = 0;
             }
             updateSlider();
-            resetAutoSlide(); // Reset the timer when manually navigating
+            resetAutoSlide();
         };
         
-        // Auto advance to next slide
         const startAutoSlide = () => {
             autoSlideInterval = setInterval(() => {
                 nextSlide();
             }, autoSlideDelay);
         };
         
-        // Reset auto slide timer
         const resetAutoSlide = () => {
             clearInterval(autoSlideInterval);
             startAutoSlide();
         };
         
-        // Pause auto slide on hover
         const setupAutoSlideControls = () => {
             const sliderContainer = track.closest('.certifications-slider');
             
@@ -592,7 +580,6 @@ class PortfolioManager {
                 startAutoSlide();
             });
             
-            // Also pause on focus for accessibility
             sliderContainer.addEventListener('focusin', () => {
                 clearInterval(autoSlideInterval);
             });
@@ -602,24 +589,19 @@ class PortfolioManager {
             });
         };
         
-        // Event listeners
         prevBtn.addEventListener('click', prevSlide);
         nextBtn.addEventListener('click', nextSlide);
         
-        // Handle window resize
         const handleResize = () => {
-            // For single slide display, no special resize handling needed
             updateSlider();
         };
         
-        // Initialize
         window.addEventListener('resize', handleResize);
         createDots();
         updateSlider();
         startAutoSlide();
         setupAutoSlideControls();
         
-        // Add keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowLeft') {
                 prevSlide();
@@ -628,31 +610,28 @@ class PortfolioManager {
             }
         });
         
-        // Add swipe support for touch devices
         let touchStartX = 0;
         let touchEndX = 0;
         
         track.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
-            clearInterval(autoSlideInterval); // Pause auto slide during interaction
+            clearInterval(autoSlideInterval);
         }, false);
         
         track.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
             handleSwipe();
-            startAutoSlide(); // Resume auto slide after interaction
+            startAutoSlide();
         }, false);
         
         const handleSwipe = () => {
-            const minSwipeDistance = 50; // Minimum distance for a swipe to count
+            const minSwipeDistance = 50;
             
             if (touchEndX < touchStartX && touchStartX - touchEndX > minSwipeDistance) {
-                // Swipe left - go to next slide
                 nextSlide();
             }
             
             if (touchEndX > touchStartX && touchEndX - touchStartX > minSwipeDistance) {
-                // Swipe right - go to previous slide
                 prevSlide();
             }
         };

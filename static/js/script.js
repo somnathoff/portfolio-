@@ -11,7 +11,6 @@ class PortfolioManager {
         
         try {
             await this.waitForDOM();
-            this.setupFadeAnimation();
             this.setupNavigation();
             this.setupSkillsToggle();
             this.setupTooltips();
@@ -36,129 +35,8 @@ class PortfolioManager {
     }
 
     // ===== Fade In Letter by Letter - FIXED =====
-    setupFadeAnimation() {
-        const element = document.querySelector('.typedText');
-        if (!element) {
-            console.warn('typedText element not found');
-            return;
-        }
-
-        const texts = ['SOMNATH', 'Problem Solver', 'Full Stack Developer', 'Machine Learning Engineer', 'Data Scientist'];
-        let textIndex = 0;
-        let isAnimating = false;
-        
-        // Add CSS for fade animation - CRITICAL for visibility
-        const styleId = 'fade-animation-style';
-        if (!document.getElementById(styleId)) {
-            const style = document.createElement('style');
-            style.id = styleId;
-            style.textContent = `
-                @keyframes letterFadeIn {
-                    0% { 
-                        opacity: 0; 
-                        transform: translateY(30px) scale(0.8); 
-                    }
-                    100% { 
-                        opacity: 1; 
-                        transform: translateY(0) scale(1); 
-                    }
-                }
-                
-                @keyframes letterFadeOut {
-                    0% { 
-                        opacity: 1; 
-                        transform: translateY(0) scale(1); 
-                    }
-                    100% { 
-                        opacity: 0; 
-                        transform: translateY(-20px) scale(0.9); 
-                    }
-                }
-                
-                .typedText {
-                    min-height: 1.5em;
-                    display: inline-block;
-                    white-space: nowrap;
-                    -webkit-text-fill-color: transparent !important;
-                    background: var(--gradient-1) !important;
-                    -webkit-background-clip: text !important;
-                    background-clip: text !important;
-                }
-                
-                .typedText .letter {
-                    display: inline-block;
-                    opacity: 0;
-                    background: var(--gradient-1);
-                    -webkit-background-clip: text;
-                    background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                }
-                
-                .typedText .letter.fade-in {
-                    animation: letterFadeIn 0.6s ease-out forwards;
-                }
-                
-                .typedText .letter.fade-out {
-                    animation: letterFadeOut 0.4s ease-in forwards;
-                }
-            `;
-            document.head.appendChild(style);
-        }
-        
-        const animateText = () => {
-            if (isAnimating) return;
-            isAnimating = true;
-            
-            const text = texts[textIndex];
-            element.innerHTML = '';
-            
-            // Create letter spans
-            const letters = text.split('').map((char, i) => {
-                const span = document.createElement('span');
-                span.className = 'letter';
-                span.textContent = char;
-                span.style.animationDelay = `${i * 0.1}s`;
-                return span;
-            });
-            
-            // Add all letters to DOM
-            letters.forEach(letter => element.appendChild(letter));
-            
-            // Trigger fade-in animation with a small delay to ensure CSS is applied
-            setTimeout(() => {
-                letters.forEach(letter => letter.classList.add('fade-in'));
-            }, 50);
-            
-            // Calculate when animation completes
-            const fadeInDuration = (letters.length * 0.1 + 0.6) * 1000;
-            const displayTime = 2500; // Show text for 2.5 seconds
-            
-            // After fade-in completes + display time, start fade-out
-            setTimeout(() => {
-                // Fade out
-                letters.forEach((letter, i) => {
-                    letter.classList.remove('fade-in');
-                    letter.style.animationDelay = `${i * 0.05}s`;
-                    letter.classList.add('fade-out');
-                });
-                
-                // After fade-out, start next text
-                const fadeOutDuration = (letters.length * 0.05 + 0.4) * 1000;
-                setTimeout(() => {
-                    textIndex = (textIndex + 1) % texts.length;
-                    isAnimating = false;
-                    animateText();
-                }, fadeOutDuration);
-                
-            }, fadeInDuration + displayTime);
-        };
-        
-        // Start animation after a short delay
-        setTimeout(() => {
-            animateText();
-        }, 500);
-    }
-
+    // 
+    
     // ===== NAVIGATION =====
     setupNavigation() {
         this.setupMobileMenu();

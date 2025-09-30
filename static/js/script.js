@@ -50,11 +50,22 @@ class PortfolioManager {
         const style = document.createElement('style');
         style.textContent = `
             @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(10px); }
-                to { opacity: 1; transform: translateY(0); }
+                from { 
+                    opacity: 0; 
+                    transform: translateY(20px); 
+                }
+                to { 
+                    opacity: 1; 
+                    transform: translateY(0); 
+                }
+            }
+            .typedText {
+                min-height: 1.2em;
+                display: inline-block;
             }
             .typedText span {
                 display: inline-block;
+                opacity: 0;
             }
         `;
         document.head.appendChild(style);
@@ -63,26 +74,44 @@ class PortfolioManager {
             const text = texts[textIndex];
             element.innerHTML = '';
             
+            // Create spans for each character
             text.split('').forEach((char, i) => {
                 const span = document.createElement('span');
                 span.textContent = char;
                 span.style.opacity = '0';
-                span.style.animation = `fadeIn 0.5s ease-in ${i * 0.1}s forwards`;
+                span.style.display = 'inline-block';
+                span.style.animation = `fadeIn 0.8s ease-out ${i * 0.15}s forwards`;
                 element.appendChild(span);
             });
             
-            // Wait for animation to complete, then switch to next text
-            const animationDuration = (text.length * 0.1 + 0.5) * 1000; // Calculate total animation time
+            // Calculate total animation duration
+            const animationDuration = (text.length * 0.15 + 0.8) * 1000;
+            
+            // Wait for animation to complete, then wait 2 seconds before next text
             setTimeout(() => {
-                textIndex = (textIndex + 1) % texts.length;
-                setTimeout(fadeIn, 2000); // Wait 2 seconds before starting next animation
+                // Keep text visible for 2 more seconds
+                setTimeout(() => {
+                    // Fade out current text
+                    const spans = element.querySelectorAll('span');
+                    spans.forEach((span, i) => {
+                        setTimeout(() => {
+                            span.style.transition = 'opacity 0.3s ease-out';
+                            span.style.opacity = '0';
+                        }, i * 30);
+                    });
+                    
+                    // Start next text after fade out
+                    setTimeout(() => {
+                        textIndex = (textIndex + 1) % texts.length;
+                        fadeIn();
+                    }, spans.length * 30 + 300);
+                }, 2000);
             }, animationDuration);
         };
         
         // Start the animation
         fadeIn();
     }
-
     // ===== NAVIGATION =====
     setupNavigation() {
         this.setupMobileMenu();

@@ -530,7 +530,7 @@ const portfolioManager = new PortfolioManager();
 
 
 // Name variations to cycle through
-const nameVariations = ["SOMNATH", "SOMU", "SOM", "NATH", "SOMU3103"];
+const nameVariations = ['SOMNATH', 'Problem Solver', 'Full Stack Developer', 'Machine Learning Engineer', 'Data Scientist'];
 
 // Function to create animated name
 function createAnimatedName(name) {

@@ -1798,6 +1798,8 @@ footer::before {
 
 /* ===== MOBILE RESPONSIVE CSS - COMPLETE VERSION ===== */
 
+/* ===== MOBILE RESPONSIVE STYLES ===== */
+
 /* Tablet & Small Desktop */
 @media only screen and (max-width: 1024px) {
   .wrapper {
@@ -1863,12 +1865,14 @@ footer::before {
   }
 }
 
-/* ===== MOBILE NAVIGATION - VERTICAL CENTERED ===== */
+/* ===== MOBILE NAVIGATION - VERTICAL TOP CENTERED ===== */
 @media only screen and (max-width: 900px) {
+  /* Navigation */
   .nav-menu-btn {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1001;
   }
   
   .nav-menu {
@@ -1881,8 +1885,10 @@ footer::before {
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    flex-direction: column;
+    padding-top: 120px;
     transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     z-index: 999;
   }
@@ -1891,7 +1897,7 @@ footer::before {
     left: 0;
   }
 
-  /* VERTICAL CENTERED MENU */
+  /* VERTICAL TOP CENTERED MENU */
   .nav_menu_list {
     display: flex;
     flex-direction: column;
@@ -1930,7 +1936,7 @@ footer::before {
     background: rgba(0, 212, 255, 0.1);
   }
 
-  /* Rest of your mobile styles */
+  /* Featured Section */
   .featured-box {
     flex-direction: column;
     justify-content: center;
@@ -1993,6 +1999,7 @@ footer::before {
     justify-content: center;
   }
   
+  /* About Section */
   .row {
     flex-direction: column;
     gap: 40px;
@@ -2023,6 +2030,7 @@ footer::before {
     margin-bottom: 20px;
   }
 
+  /* Timeline Section */
   .timeline-container {
     max-width: 100%;
     margin: 20px 0;
@@ -2080,6 +2088,7 @@ footer::before {
     padding: 4px 10px;
   }
 
+  /* Cards Section */
   .cards {
     flex-direction: column;
     align-items: center;
@@ -2091,6 +2100,7 @@ footer::before {
     min-width: auto;
   }
 
+  /* Contact Section */
   .form-inputs {
     flex-direction: column;
     gap: 20px;
@@ -2129,6 +2139,7 @@ footer::before {
     display: none;
   }
 
+  /* Social Icons */
   .social_icons {
     justify-content: center;
     margin-top: 30px;
@@ -2139,6 +2150,7 @@ footer::before {
     height: 45px;
   }
 
+  /* Skills Section */
   .skills {
     padding: 60px 0;
   }
@@ -2197,7 +2209,7 @@ footer::before {
   }
 }
 
-/* Smaller mobile adjustments */
+/* Medium Mobile Phones */
 @media only screen and (max-width: 600px) {
   nav {
     height: 70px;
@@ -2209,19 +2221,428 @@ footer::before {
     font-size: 22px;
   }
   
+  .nav-menu {
+    padding-top: 100px;
+  }
+  
   .nav-link {
     font-size: 20px;
     padding: 12px 30px;
   }
+
+  .featured-box {
+    padding-top: 100px;
+    min-height: calc(100vh - 70px);
+  }
+  
+  .featured-name {
+    font-size: 2.0rem;
+    line-height: 1.2;
+    margin-bottom: 15px;
+  }
+  
+  .featured-text-info {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    padding: 0 10px;
+  }
+  
+  .featured-text-btn {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .featured-text-btn .btn {
+    width: 160px;
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+  
+  .social_icons {
+    gap: 15px;
+    margin-top: 25px;
+  }
+
+  .icon {
+    width: 42px;
+    height: 42px;
+    font-size: 18px;
+  }
+
+  .image {
+    width: 240px;
+    height: 240px;
+  }
+  
+  .image img {
+    width: 260px;
+    height: 260px;
+  }
+  
+  .about-pic {
+    width: 200px;
+    height: 200px;
+  }
+
+  .top-header h1 {
+    font-size: 2rem;
+    line-height: 1.3;
+  }
+
+  .top-header span {
+    font-size: 14px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  .timeline-container {
+    padding: 15px 10px;
+  }
+
+  .timeline-container::before {
+    left: 25px;
+    width: 2px;
+  }
+  
+  .timeline-item,
+  .timeline-item:nth-child(even) {
+    padding-left: 60px;
+    margin-bottom: 40px;
+  }
+  
+  .timeline-content,
+  .timeline-item:nth-child(even) .timeline-content {
+    padding: 15px;
+  }
+  
+  .timeline-image {
+    height: 140px;
+  }
+  
+  .timeline-title {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  
+  .timeline-description {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  
+  .timeline-tags {
+    gap: 4px;
+  }
+  
+  .timeline-tag {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+
+  .card_content {
+    padding: 15px;
+  }
+
+  .card_title {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+
+  .card_text p {
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+  }
+
+  .contact-info {
+    padding: 15px 12px;
+  }
+
+  .contact-info > h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .contact-info > p {
+    font-size: 14px;
+    gap: 10px;
+    padding: 6px 10px;
+    margin-block: 6px;
+  }
+
+  .contact-info p > i {
+    font-size: 16px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .input-field {
+    height: 45px;
+    font-size: 14px;
+    padding: 0 12px;
+    border-radius: 15px;
+  }
+
+  textarea {
+    height: 100px;
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 15px;
+  }
+
+  .form-button > .btn {
+    padding: 15px 20px;
+    font-size: 14px;
+    border-radius: 25px;
+  }
+
+  .btn {
+    padding: 12px 20px;
+    font-size: 13px;
+    border-radius: 25px;
+  }
+
+  .bottom-footer {
+    font-size: 12px;
+    padding: 0 20px;
+    text-align: center;
+  }
+
+  .section {
+    padding-block: 4em 3em;
+  }
+
+  .top-header {
+    margin-bottom: 3em;
+  }
+
+  .wrapper {
+    padding-top: 70px;
+  }
+
+  .skills .section-title {
+    font-size: 1.8rem;
+  }
+
+  .skills-toggle {
+    width: 200px;
+    padding: 5px;
+  }
+
+  .skills-toggle::before {
+    width: 90px;
+    top: 5px;
+    left: 5px;
+    bottom: 5px;
+  }
+
+  .toggle-btn {
+    padding: 8px 16px;
+    width: 90px;
+    font-size: 12px;
+  }
+
+  .skills-card {
+    width: 70px;
+    height: 70px;
+  }
+
+  .card-icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .tooltip {
+    font-size: 11px;
+    padding: 5px 8px;
+    bottom: 85px;
+  }
 }
 
+/* Small Mobile Phones */
 @media only screen and (max-width: 375px) {
+  nav {
+    padding-inline: 15px;
+  }
+
   .nav-name {
     font-size: 20px;
+  }
+  
+  .nav-menu {
+    padding-top: 80px;
   }
   
   .nav-link {
     font-size: 18px;
     padding: 10px 25px;
+  }
+
+  .featured-name {
+    font-size: 1.9rem;
+  }
+
+  .image, .image img {
+    width: 220px;
+    height: 220px;
+  }
+
+  .about-pic {
+    width: 180px;
+    height: 180px;
+  }
+
+  .top-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .featured-text-btn {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .featured-text-btn .btn {
+    width: 140px;
+    padding: 12px 16px;
+  }
+
+  .timeline-container {
+    padding: 10px 5px;
+  }
+
+  .timeline-container::before {
+    left: 20px;
+  }
+
+  .timeline-item,
+  .timeline-item:nth-child(even) {
+    padding-left: 50px;
+    margin-bottom: 35px;
+  }
+  
+  .timeline-content,
+  .timeline-item:nth-child(even) .timeline-content {
+    padding: 12px;
+  }
+
+  .timeline-image {
+    height: 120px;
+  }
+
+  .timeline-title {
+    font-size: 15px;
+  }
+
+  .timeline-description {
+    font-size: 12px;
+  }
+
+  .timeline-tag {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  .card_content {
+    padding: 12px;
+  }
+
+  .contact-info {
+    padding: 12px 10px;
+  }
+
+  .form-button > .btn {
+    padding: 12px 16px;
+  }
+
+  .skills-toggle {
+    width: 180px;
+    padding: 4px;
+  }
+
+  .skills-toggle::before {
+    width: 80px;
+    top: 4px;
+    left: 4px;
+    bottom: 4px;
+  }
+
+  .toggle-btn {
+    padding: 6px 12px;
+    width: 80px;
+    font-size: 11px;
+  }
+
+  .skills-card {
+    width: 65px;
+    height: 65px;
+  }
+
+  .card-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .tooltip {
+    font-size: 10px;
+    padding: 4px 6px;
+    bottom: 80px;
+  }
+}
+
+/* Very Small Mobile Phones */
+@media only screen and (max-width: 320px) {
+  .nav-menu {
+    padding-top: 70px;
+  }
+  
+  .nav-link {
+    font-size: 16px;
+    padding: 8px 20px;
+  }
+
+  .featured-name {
+    font-size: 1.7rem;
+  }
+
+  .image, .image img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .featured-text-btn .btn {
+    width: 130px;
+    padding: 10px 14px;
+    font-size: 12px;
+  }
+}
+
+/* Landscape Orientation */
+@media only screen and (max-height: 500px) and (orientation: landscape) {
+  .nav-menu {
+    padding-top: 80px;
+  }
+  
+  .nav_menu_list {
+    gap: 20px;
+  }
+  
+  .nav-link {
+    padding: 10px 25px;
+    font-size: 18px;
+  }
+
+  .featured-box {
+    padding: 80px 0 40px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

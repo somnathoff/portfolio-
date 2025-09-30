@@ -320,11 +320,70 @@ nav {
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
-/* Optional: Style the name with blue color */
+/* Disappearing text animation for SOMNATH */
 .featured-name p .typedText {
   color: var(--color-blue);
+  display: inline-block;
 }
 
+.featured-name p .typedText span {
+  display: inline-block;
+  color: transparent;
+  text-shadow: 0px 0px 0px var(--color-blue);
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+
+.featured-name p .typedText span:nth-child(1) {
+  animation-name: disappearleft;
+}
+
+.featured-name p .typedText span:nth-child(2) {
+  animation-name: disappearleft;
+  animation-delay: .2s;
+}
+
+.featured-name p .typedText span:nth-child(3) {
+  animation-name: disappearight;
+  animation-delay: .4s;
+}
+
+.featured-name p .typedText span:nth-child(4) {
+  animation-name: disappearleft;
+  animation-delay: .6s;
+}
+
+.featured-name p .typedText span:nth-child(5) {
+  animation-name: disappearight;
+  animation-delay: .8s;
+}
+
+.featured-name p .typedText span:nth-child(6) {
+  animation-name: disappearight;
+  animation-delay: 1s;
+}
+
+.featured-name p .typedText span:nth-child(7) {
+  animation-name: disappearleft;
+  animation-delay: 1.2s;
+}
+
+@keyframes disappearleft {
+  50% {
+    transform: skew(50deg) translateY(-200%);
+    text-shadow: 0px 0px 50px var(--color-blue);
+    opacity: 0;
+  }
+}
+
+@keyframes disappearight {
+  50% {
+    transform: skew(-50deg) translateY(-200%);
+    text-shadow: 0px 0px 50px var(--color-blue);
+    opacity: 0;
+  }
+}
+/*----------------------------------------------*/
 .featured-text-info {
   font-size: 16px;
   margin-bottom: 30px;

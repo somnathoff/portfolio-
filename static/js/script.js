@@ -11,7 +11,7 @@ class PortfolioManager {
         
         try {
             await this.waitForDOM();
-            this.setupTypingAnimation();
+            this.setupFadeAnimation(); // FIXED: Changed from setupTypingAnimation()
             this.setupNavigation();
             this.setupSkillsToggle();
             this.setupTooltips();
@@ -35,45 +35,53 @@ class PortfolioManager {
         });
     }
 
-    // ===== TYPING ANIMATION =====
-    setupGlitchAnimation() {
-    const element = document.querySelector('.typedText');
-    if (!element) return;
+    // ===== Fade In Letter by Letter =====
+    setupFadeAnimation() {
+        const element = document.querySelector('.typedText');
+        if (!element) {
+            console.warn('typedText element not found');
+            return;
+        }
 
-    const texts = ['SOMNATH', 'SOMU'];
-    let textIndex = 0;
-    const glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?';
-    
-    function glitch() {
-        const targetText = texts[textIndex];
-        let iterations = 0;
-        const maxIterations = targetText.length;
+        const texts = ['SOMNATH', 'SOMU'];
+        let textIndex = 0;
         
-        const interval = setInterval(() => {
-            element.textContent = targetText
-                .split('')
-                .map((char, index) => {
-                    if (index < iterations) {
-                        return targetText[index];
-                    }
-                    return glitchChars[Math.floor(Math.random() * glitchChars.length)];
-                })
-                .join('');
-            
-            iterations += 1/3;
-            
-            if (iterations >= maxIterations) {
-                clearInterval(interval);
-                setTimeout(() => {
-                    textIndex = (textIndex + 1) % texts.length;
-                    glitch();
-                }, 2000);
+        // Add CSS for fade animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
             }
-        }, 50);
+            .typedText span {
+                display: inline-block;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        const fadeIn = () => {
+            const text = texts[textIndex];
+            element.innerHTML = '';
+            
+            text.split('').forEach((char, i) => {
+                const span = document.createElement('span');
+                span.textContent = char;
+                span.style.opacity = '0';
+                span.style.animation = `fadeIn 0.5s ease-in ${i * 0.1}s forwards`;
+                element.appendChild(span);
+            });
+            
+            // Wait for animation to complete, then switch to next text
+            const animationDuration = (text.length * 0.1 + 0.5) * 1000; // Calculate total animation time
+            setTimeout(() => {
+                textIndex = (textIndex + 1) % texts.length;
+                setTimeout(fadeIn, 2000); // Wait 2 seconds before starting next animation
+            }, animationDuration);
+        };
+        
+        // Start the animation
+        fadeIn();
     }
-    
-    glitch();
-}
 
     // ===== NAVIGATION =====
     setupNavigation() {

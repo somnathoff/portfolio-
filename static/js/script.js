@@ -36,64 +36,44 @@ class PortfolioManager {
     }
 
     // ===== TYPING ANIMATION =====
-    setupTypingAnimation() {
-        const typedElement = document.querySelector('.typedText');
-        if (!typedElement) return;
+    setupGlitchAnimation() {
+    const element = document.querySelector('.typedText');
+    if (!element) return;
 
-        // Check if Typed.js is available
-        if (typeof Typed !== 'undefined') {
-            new Typed('.typedText', {
-                strings: ['SOMNATH', 'SOMU'],
-                loop: true,
-                typeSpeed: 100,
-                backSpeed: 80,
-                backDelay: 2000,
-                showCursor: true,
-                cursorChar: '|',
-                autoInsertCss: true,
-            });
-        } else {
-            // Fallback typing animation
-            this.setupFallbackTyping(typedElement);
-        }
-    }
-
-    setupFallbackTyping(element) {
-        const texts = ['SOMNATH', 'SOMU'];
-        let textIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
+    const texts = ['SOMNATH', 'SOMU'];
+    let textIndex = 0;
+    const glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+    
+    function glitch() {
+        const targetText = texts[textIndex];
+        let iterations = 0;
+        const maxIterations = targetText.length;
         
-        const typeSpeed = 100;
-        const deleteSpeed = 50;
-        const pauseTime = 2000;
-
-        function type() {
-            const currentText = texts[textIndex];
+        const interval = setInterval(() => {
+            element.textContent = targetText
+                .split('')
+                .map((char, index) => {
+                    if (index < iterations) {
+                        return targetText[index];
+                    }
+                    return glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                })
+                .join('');
             
-            if (isDeleting) {
-                element.textContent = currentText.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                element.textContent = currentText.substring(0, charIndex + 1);
-                charIndex++;
+            iterations += 1/3;
+            
+            if (iterations >= maxIterations) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    textIndex = (textIndex + 1) % texts.length;
+                    glitch();
+                }, 2000);
             }
-
-            let typeSpeedCurrent = isDeleting ? deleteSpeed : typeSpeed;
-
-            if (!isDeleting && charIndex === currentText.length) {
-                typeSpeedCurrent = pauseTime;
-                isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                textIndex = (textIndex + 1) % texts.length;
-            }
-
-            setTimeout(type, typeSpeedCurrent);
-        }
-        
-        type();
+        }, 50);
     }
+    
+    glitch();
+}
 
     // ===== NAVIGATION =====
     setupNavigation() {

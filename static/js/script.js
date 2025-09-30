@@ -79,11 +79,19 @@ class PortfolioManager {
                     min-height: 1.5em;
                     display: inline-block;
                     white-space: nowrap;
+                    -webkit-text-fill-color: transparent !important;
+                    background: var(--gradient-1) !important;
+                    -webkit-background-clip: text !important;
+                    background-clip: text !important;
                 }
                 
                 .typedText .letter {
                     display: inline-block;
                     opacity: 0;
+                    background: var(--gradient-1);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    -webkit-text-fill-color: transparent;
                 }
                 
                 .typedText .letter.fade-in {

@@ -320,15 +320,12 @@ nav {
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
-.typedText {
-  background: var(--gradient-1);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: none;
-  position: relative;
+.typedText,
+.typedText .letter {
+    -webkit-text-fill-color: #00d4ff !important;
+    background: none !important;
+    color: #00d4ff !important;
 }
-
 .typedText::after {
   content: '';
   position: absolute;

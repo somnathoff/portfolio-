@@ -103,14 +103,14 @@ class PortfolioManager {
     }
 
     setupMobileMenu() {
-        const navMenu = document.getElementById('navMenu');
-        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('myNavMenu');
+        const menuBtn = document.querySelector('.nav-menu-btn i');
         const navLinks = document.querySelectorAll('.nav-link');
 
-        if (!navMenu || !navToggle) return;
+        if (!navMenu || !menuBtn) return;
 
         // Add click event to menu button
-        navToggle.addEventListener('click', (e) => {
+        menuBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             this.toggleMenu();
         });
@@ -124,26 +124,28 @@ class PortfolioManager {
 
         // Close menu on escape key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && navMenu.classList.contains('show')) {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
                 this.closeMenu();
             }
         });
 
         // Close menu when clicking outside
         document.addEventListener('click', (event) => {
-            if (navMenu && navToggle && 
+            const menuBtn = document.querySelector('.nav-menu-btn');
+            
+            if (navMenu && menuBtn && 
                 !navMenu.contains(event.target) && 
-                !navToggle.contains(event.target) && 
-                navMenu.classList.contains('show')) {
+                !menuBtn.contains(event.target) && 
+                navMenu.classList.contains('active')) {
                 this.closeMenu();
             }
         });
     }
 
     toggleMenu() {
-        const navMenu = document.getElementById('navMenu');
+        const navMenu = document.getElementById('myNavMenu');
         
-        if (navMenu.classList.contains('show')) {
+        if (navMenu.classList.contains('active')) {
             this.closeMenu();
         } else {
             this.openMenu();
@@ -151,25 +153,23 @@ class PortfolioManager {
     }
 
     openMenu() {
-        const navMenu = document.getElementById('navMenu');
-        const navToggle = document.getElementById('navToggle');
-        const icon = navToggle.querySelector('i');
+        const navMenu = document.getElementById('myNavMenu');
+        const menuBtn = document.querySelector('.nav-menu-btn i');
         
-        navMenu.classList.add('show');
-        icon.classList.remove('uil-bars');
-        icon.classList.add('uil-times');
+        navMenu.classList.add('active');
+        menuBtn.classList.remove('uil-bars');
+        menuBtn.classList.add('uil-times');
         document.body.style.overflow = 'hidden';
     }
 
     closeMenu() {
-        const navMenu = document.getElementById('navMenu');
-        const navToggle = document.getElementById('navToggle');
-        const icon = navToggle?.querySelector('i');
+        const navMenu = document.getElementById('myNavMenu');
+        const menuBtn = document.querySelector('.nav-menu-btn i');
         
-        if (navMenu) navMenu.classList.remove('show');
-        if (icon) {
-            icon.classList.remove('uil-times');
-            icon.classList.add('uil-bars');
+        if (navMenu) navMenu.classList.remove('active');
+        if (menuBtn) {
+            menuBtn.classList.remove('uil-times');
+            menuBtn.classList.add('uil-bars');
         }
         document.body.style.overflow = '';
     }
@@ -220,118 +220,119 @@ class PortfolioManager {
             });
 
             navLinks.forEach(link => {
-                link.classList.remove('active');
+                link.classList.remove('active-link');
                 if (link.getAttribute('href') === `#${current}`) {
-                    link.classList.add('active');
+                    link.classList.add('active-link');
                 }
             });
         });
     }
 
-    // ===== SKILLS TOGGLE FUNCTIONALITY =====
-    setupSkillsToggle() {
-        const toggleBtns = document.querySelectorAll('[data-toggle-btn]');
-        const skillsList = document.querySelector('.skills-list');
-        const toolsList = document.querySelector('.tools-list');
-        const toggleBox = document.querySelector('[data-toggle-box]');
+    // ===== SKILLS TOGGLE FUNCTIONALITY - FIXED =====
+    // ===== SKILLS TOGGLE FUNCTIONALITY - FIXED =====
+setupSkillsToggle() {
+    const toggleBtns = document.querySelectorAll('[data-toggle-btn]');
+    const skillsList = document.querySelector('.skills-list');
+    const toolsList = document.querySelector('.tools-list');
+    const toggleBox = document.querySelector('[data-toggle-box]');
 
-        if (!toggleBox || toggleBtns.length === 0 || !skillsList || !toolsList) {
-            console.warn('Skills toggle elements not found');
-            return;
-        }
+    if (!toggleBox || toggleBtns.length === 0 || !skillsList || !toolsList) {
+        console.warn('Skills toggle elements not found');
+        return;
+    }
 
-        // Initialize default state
-        this.initializeDefaultSkillsState();
+    // Initialize default state
+    this.initializeDefaultSkillsState();
 
-        // Add click event to each toggle button
-        toggleBtns.forEach((btn, index) => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                // Remove active class from all buttons
-                toggleBtns.forEach(toggleBtn => {
-                    toggleBtn.classList.remove('active');
-                });
-                
-                // Add active class to clicked button
-                btn.classList.add('active');
-                
-                // Get button text to determine action
-                const buttonText = btn.textContent.toLowerCase().trim();
-                
-                // Toggle between skills and tools based on button text
-                if (buttonText.includes('skills')) {
-                    // Show skills, hide tools
-                    skillsList.style.display = 'flex';
-                    toolsList.style.display = 'none';
-                    skillsList.classList.add('active');
-                    toolsList.classList.remove('active');
-                    
-                    // Move toggle background to first button (Skills)
-                    this.moveToggleBackground(toggleBox, 0);
-                } else if (buttonText.includes('tools')) {
-                    // Show tools, hide skills
-                    skillsList.style.display = 'none';
-                    toolsList.style.display = 'flex';
-                    skillsList.classList.remove('active');
-                    toolsList.classList.add('active');
-                    
-                    // Move toggle background to second button (Tools)
-                    this.moveToggleBackground(toggleBox, 1);
-                }
+    // Add click event to each toggle button
+    toggleBtns.forEach((btn, index) => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Remove active class from all buttons
+            toggleBtns.forEach(toggleBtn => {
+                toggleBtn.classList.remove('active');
             });
-        });
-    }
-
-    // Move the toggle background indicator
-    moveToggleBackground(toggleBox, buttonIndex) {
-        const toggleBtns = toggleBox.querySelectorAll('[data-toggle-btn]');
-        if (toggleBtns.length === 0) return;
-        
-        const buttonWidth = toggleBtns[0].offsetWidth;
-        const translateX = buttonIndex * buttonWidth;
-        
-        // Create and apply style for the toggle background
-        const styleId = 'toggle-background-style';
-        let styleElement = document.getElementById(styleId);
-        
-        if (!styleElement) {
-            styleElement = document.createElement('style');
-            styleElement.id = styleId;
-            document.head.appendChild(styleElement);
-        }
-        
-        styleElement.textContent = `
-            .skills-toggle::before {
-                transform: translateX(${translateX}px) !important;
-                width: ${buttonWidth}px !important;
-            }
-        `;
-    }
-
-    // Initialize default state for skills
-    initializeDefaultSkillsState() {
-        const skillsList = document.querySelector('.skills-list');
-        const toolsList = document.querySelector('.tools-list');
-        const skillsBtn = document.querySelector('[data-toggle-btn]:first-child');
-        const toggleBox = document.querySelector('[data-toggle-box]');
-        
-        if (skillsList && toolsList && skillsBtn) {
-            // Set initial display states
-            skillsList.style.display = 'flex';
-            toolsList.style.display = 'none';
             
-            // Set initial classes
-            skillsList.classList.add('active');
-            toolsList.classList.remove('active');
-            skillsBtn.classList.add('active');
+            // Add active class to clicked button
+            btn.classList.add('active');
             
-            // Initialize toggle background position
-            if (toggleBox) {
+            // Get button text to determine action
+            const buttonText = btn.textContent.toLowerCase().trim();
+            
+            // Toggle between skills and tools based on button text
+            if (buttonText.includes('skills')) {
+                // Show skills, hide tools
+                skillsList.style.display = 'flex';
+                toolsList.style.display = 'none';
+                skillsList.classList.add('active');
+                toolsList.classList.remove('active');
+                
+                // Move toggle background to first button (Skills)
                 this.moveToggleBackground(toggleBox, 0);
+            } else if (buttonText.includes('tools')) {
+                // Show tools, hide skills
+                skillsList.style.display = 'none';
+                toolsList.style.display = 'flex';
+                skillsList.classList.remove('active');
+                toolsList.classList.add('active');
+                
+                // Move toggle background to second button (Tools)
+                this.moveToggleBackground(toggleBox, 1);
             }
+        });
+    });
+}
+
+// Move the toggle background indicator
+moveToggleBackground(toggleBox, buttonIndex) {
+    const toggleBtns = toggleBox.querySelectorAll('[data-toggle-btn]');
+    if (toggleBtns.length === 0) return;
+    
+    const buttonWidth = toggleBtns[0].offsetWidth;
+    const translateX = buttonIndex * buttonWidth;
+    
+    // Create and apply style for the toggle background
+    const styleId = 'toggle-background-style';
+    let styleElement = document.getElementById(styleId);
+    
+    if (!styleElement) {
+        styleElement = document.createElement('style');
+        styleElement.id = styleId;
+        document.head.appendChild(styleElement);
+    }
+    
+    styleElement.textContent = `
+        .skills-toggle::before {
+            transform: translateX(${translateX}px) !important;
+            width: ${buttonWidth}px !important;
+        }
+    `;
+}
+
+// Initialize default state for skills
+initializeDefaultSkillsState() {
+    const skillsList = document.querySelector('.skills-list');
+    const toolsList = document.querySelector('.tools-list');
+    const skillsBtn = document.querySelector('[data-toggle-btn]:first-child');
+    const toggleBox = document.querySelector('[data-toggle-box]');
+    
+    if (skillsList && toolsList && skillsBtn) {
+        // Set initial display states
+        skillsList.style.display = 'flex';
+        toolsList.style.display = 'none';
+        
+        // Set initial classes
+        skillsList.classList.add('active');
+        toolsList.classList.remove('active');
+        skillsBtn.classList.add('active');
+        
+        // Initialize toggle background position
+        if (toggleBox) {
+            this.moveToggleBackground(toggleBox, 0);
         }
     }
+}
 
     // ===== TOOLTIP FUNCTIONALITY =====
     setupTooltips() {
@@ -481,7 +482,7 @@ class PortfolioManager {
         const nextBtn = document.getElementById('nextBtn');
         const dotsContainer = document.getElementById('sliderDots');
         
-        if (!track) return;
+        if (!track) return; // Exit if no certifications
         
         const slides = track.querySelectorAll('.certification-slide');
         const totalSlides = slides.length;
@@ -490,8 +491,9 @@ class PortfolioManager {
         
         let currentSlide = 0;
         let autoSlideInterval;
-        const autoSlideDelay = 2500;
+        const autoSlideDelay = 2500; // 2.5 seconds between slides
         
+        // Create dots - one for each slide
         const createDots = () => {
             dotsContainer.innerHTML = '';
             
@@ -504,54 +506,65 @@ class PortfolioManager {
             }
         };
         
+        // Update slider position
         const updateSlider = () => {
-            const translateX = -(currentSlide * 100);
+            // For single slide display, we just need to move to the correct slide
+            const translateX = -(currentSlide * 100); // 100% per slide
             track.style.transform = `translateX(${translateX}%)`;
             
+            // Update dots
             const dots = dotsContainer.querySelectorAll('.dot');
             dots.forEach((dot, index) => {
                 dot.classList.toggle('active', index === currentSlide);
             });
             
+            // Update button states
             prevBtn.disabled = currentSlide <= 0;
             nextBtn.disabled = currentSlide >= totalSlides - 1;
         };
         
+        // Go to specific slide
         const goToSlide = (index) => {
             currentSlide = Math.max(0, Math.min(index, totalSlides - 1));
             updateSlider();
-            resetAutoSlide();
+            resetAutoSlide(); // Reset the timer when manually navigating
         };
         
+        // Previous slide
         const prevSlide = () => {
             if (currentSlide > 0) {
                 currentSlide--;
                 updateSlider();
-                resetAutoSlide();
+                resetAutoSlide(); // Reset the timer when manually navigating
             }
         };
         
+        // Next slide
         const nextSlide = () => {
             if (currentSlide < totalSlides - 1) {
                 currentSlide++;
             } else {
+                // If we're at the last slide, loop back to the first
                 currentSlide = 0;
             }
             updateSlider();
-            resetAutoSlide();
+            resetAutoSlide(); // Reset the timer when manually navigating
         };
         
+        // Auto advance to next slide
         const startAutoSlide = () => {
             autoSlideInterval = setInterval(() => {
                 nextSlide();
             }, autoSlideDelay);
         };
         
+        // Reset auto slide timer
         const resetAutoSlide = () => {
             clearInterval(autoSlideInterval);
             startAutoSlide();
         };
         
+        // Pause auto slide on hover
         const setupAutoSlideControls = () => {
             const sliderContainer = track.closest('.certifications-slider');
             
@@ -562,17 +575,35 @@ class PortfolioManager {
             sliderContainer.addEventListener('mouseleave', () => {
                 startAutoSlide();
             });
+            
+            // Also pause on focus for accessibility
+            sliderContainer.addEventListener('focusin', () => {
+                clearInterval(autoSlideInterval);
+            });
+            
+            sliderContainer.addEventListener('focusout', () => {
+                startAutoSlide();
+            });
         };
         
+        // Event listeners
         prevBtn.addEventListener('click', prevSlide);
         nextBtn.addEventListener('click', nextSlide);
         
+        // Handle window resize
+        const handleResize = () => {
+            // For single slide display, no special resize handling needed
+            updateSlider();
+        };
+        
+        // Initialize
+        window.addEventListener('resize', handleResize);
         createDots();
         updateSlider();
         startAutoSlide();
         setupAutoSlideControls();
         
-        // Keyboard navigation
+        // Add keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowLeft') {
                 prevSlide();
@@ -581,59 +612,33 @@ class PortfolioManager {
             }
         });
         
-        // Touch swipe support
+        // Add swipe support for touch devices
         let touchStartX = 0;
         let touchEndX = 0;
         
         track.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
-            clearInterval(autoSlideInterval);
-        });
+            clearInterval(autoSlideInterval); // Pause auto slide during interaction
+        }, false);
         
         track.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
-            const minSwipeDistance = 50;
+            handleSwipe();
+            startAutoSlide(); // Resume auto slide after interaction
+        }, false);
+        
+        const handleSwipe = () => {
+            const minSwipeDistance = 50; // Minimum distance for a swipe to count
             
             if (touchEndX < touchStartX && touchStartX - touchEndX > minSwipeDistance) {
+                // Swipe left - go to next slide
                 nextSlide();
             }
             
             if (touchEndX > touchStartX && touchEndX - touchStartX > minSwipeDistance) {
+                // Swipe right - go to previous slide
                 prevSlide();
             }
-            
-            startAutoSlide();
-        });
+        };
     }
 }
-
-// ===== INITIALIZATION =====
-let portfolioManager;
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        portfolioManager = new PortfolioManager();
-        window.portfolioManager = portfolioManager;
-    });
-} else {
-    portfolioManager = new PortfolioManager();
-    window.portfolioManager = portfolioManager;
-}
-
-// ===== WINDOW EVENTS =====
-window.addEventListener('load', () => {
-    console.log('Portfolio loaded successfully');
-});
-
-window.addEventListener('resize', () => {
-    if (window.innerWidth > 900 && portfolioManager) {
-        portfolioManager.closeMenu();
-    }
-});
-
-window.addEventListener('scroll', () => {
-    const nav = document.getElementById('header');
-    if (nav) {
-        nav.style.background = window.scrollY > 50 ? 'rgba(10, 10, 10, 0.98)' : 'rgba(10, 10, 10, 0.95)';
-    }
-});

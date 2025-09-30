@@ -43,7 +43,7 @@ class PortfolioManager {
         // Check if Typed.js is available
         if (typeof Typed !== 'undefined') {
             new Typed('.typedText', {
-                strings: ['SOMNATH'],
+                strings: ['SOMNATH','SOMU'],
                 loop: true,
                 typeSpeed: 100,
                 backSpeed: 80,
@@ -59,7 +59,7 @@ class PortfolioManager {
     }
 
     setupFallbackTyping(element) {
-        const texts = ['SOMNATH'];
+        const texts = ['SOMNATH','SOMU'];
         let textIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
